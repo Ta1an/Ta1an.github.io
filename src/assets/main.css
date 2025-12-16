@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: hsl(36, 100%, 50%);
+  --color-bg-dark: hsl(0, 0%, 10%);
+  --color-bg: hsl(0, 0%, 20%);
+  --color-bg-light: hsl(0, 0%, 30%);
+  --color-text-light: hsl(0, 0%, 90%);
+  --color-text-muted-light: hsl(0, 0%, 80%);
+  --shadow-small: 0 4px 8px #000;
+  --glow-small: 0 0 12px var(--color-primary);
+  --glow: 0 0 24px var(--color-primary);
+  --glow-light: 0 0 6px var(--color-text-muted-light);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    @apply bg-bg-dark text-text-light w-full h-screen;
+  }
+}
+
+@layer utilities {
+  h1 {
+    font-size: clamp(2rem , 3.6vw, 3rem);
+    @apply font-bold;
+  }
+  h2 {
+    font-size: clamp(1.25rem , 2.4vw , 2.8rem);
+    @apply font-semibold;
+  }
+  h3 {
+    font-size: clamp(1.2rem, 1.8vw, 2.4rem);
+    @apply font-medium;
+  }
+  h4 {
+    font-size: clamp(1rem, 1.4vw, 2.2rem);
+    @apply font-medium;
+  }
+  p {
+    font-size: clamp(0.8rem , 1.2vw , 2rem);
+    @apply text-text-muted-light;
+  }
+  span {
+    @apply text-primary;
+  }
+
+  @keyframes blink {
+      50% {
+          background-color: transparent;
+      }
+  }
+}
