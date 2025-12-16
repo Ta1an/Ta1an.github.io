@@ -2,6 +2,7 @@
 
 @theme {
   --color-primary: hsl(36, 100%, 50%);
+  --color-secondary: hsl(36, 100%, 20%);
   --color-bg-dark: hsl(0, 0%, 10%);
   --color-bg: hsl(0, 0%, 20%);
   --color-bg-light: hsl(0, 0%, 30%);

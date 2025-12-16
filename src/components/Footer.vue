@@ -31,7 +31,11 @@ import SocialMedia from './SocialMedia.vue';
     }
     
     .text {
-        @apply flex flex-col gap-3;
+        @apply flex-col gap-3;
+    }
+    
+    .text p {
+        @apply hidden md:inline;
     }
     .top {
         @apply flex justify-between  gap-5;

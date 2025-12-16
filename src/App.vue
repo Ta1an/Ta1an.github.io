@@ -6,7 +6,8 @@
     import SkillsCard from './components/SkillsCard.vue';
     import SocialMedia from './components/SocialMedia.vue';
     import { ref, onMounted } from 'vue'
-    import { hover, motion } from 'motion-v';
+    import { motion } from 'motion-v';
+    import Loader from './components/Loader.vue';
 
     const words = ['Frontend Developer', 'Web Designer', 'Android Developer']
 
@@ -119,6 +120,13 @@
   }
     ]
 
+    
+    const showLoader = ref(true)
+
+    const onLoaderDone = () => {
+        showLoader.value = false
+    }
+
     const displayedText = ref('')
 
     const typingSpeed = 100
@@ -182,9 +190,12 @@
 </script>   
 
 <template>
-    <Navbar />
+    <Loader v-if="showLoader" @done="onLoaderDone"/>
+
+    <div v-else>
+    <Navbar/>
     <main>
-        <motion.section :initial="{ opacity: 0 }" :animate="{ opacity: 1 }" :transition="{ duration: 2, ease: 'easeOut' }" id="home">
+        <motion.section :initial="{ opacity: 0 }" :animate="{ opacity: 1 }" :transition="{ duration: 2, ease: 'easeOut'}" id="home">
             <img src="/hero-image.png" alt="Hero Image"/>
             
             <div class="right">
@@ -238,7 +249,8 @@
         </motion.section>
     </main>
 
-    <Footer />
+    <Footer/>
+    </div>
 </template>
 
 <style scoped>
@@ -325,7 +337,7 @@
     }
 
     #skills .skills-container {
-        @apply grid gap-4 grid-cols-[repeat(auto-fill,minmax(240px,1fr))];
+        @apply justify-center grid gap-4 grid-cols-[repeat(auto-fit,minmax(120px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(240px,1fr))];
     }
 
     #services {

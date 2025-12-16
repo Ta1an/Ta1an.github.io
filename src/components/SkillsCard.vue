@@ -30,12 +30,12 @@ import { motion } from 'motion-v'
     }
 
     .container .header p {
-        @apply hidden md:inline lg:inline;
+        @apply hidden lg:inline;
     }
 
     .container {
         transition: border-color .3s ease, box-shadow .3s ease;
-        @apply flex justify-center items-center gap-2 p-4 bg-bg rounded-2xl shadow-small border-2 border-bg;
+        @apply flex flex-col lg:flex-row justify-center items-center gap-2 p-4 bg-bg rounded-2xl shadow-small border-2 border-bg;
     }
 
     .container:hover {
