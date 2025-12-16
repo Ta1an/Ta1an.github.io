@@ -221,13 +221,13 @@
             <motion.img src="/about-me.jpg" alt="About-me" v-bind="fadeUp" :transition="fadeUp.transition(0)" />
         </section>
 
-        <motion.section id="skills" v-bind="fadeUp" :transition="fadeUp.transition(0)">
-            <h1>Skills</h1>
-            <p>Tools I Use to Bring Ideas to Life</p>
+        <section id="skills">
+            <motion.h1 v-bind="fadeUp" :transition="fadeUp.transition(0)">Skills</motion.h1>
+            <motion.p v-bind="fadeUp" :transition="fadeUp.transition(0.2)">Tools I Use to Bring Ideas to Life</motion.p>
             <div class="skills-container">
                 <SkillsCard v-for="(skill, i) in skills" :key="skill.name" v-bind="skill" :index="i"/>
             </div>
-        </motion.section>
+        </section>
 
         <motion.section id="services" v-bind="fadeUp" :transition="fadeUp.transition(0)">
             <h1>What I Do?</h1>
