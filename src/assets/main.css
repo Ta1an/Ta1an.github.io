@@ -1,58 +1,131 @@
 @import "tailwindcss";
 
+/* ───────────────────────── Theme tokens ───────────────────────── */
 @theme {
-  --color-primary: hsl(36, 100%, 50%);
-  --color-secondary: hsl(36, 100%, 20%);
-  --color-bg-dark: hsl(0, 0%, 10%);
-  --color-bg: hsl(0, 0%, 20%);
-  --color-bg-light: hsl(0, 0%, 30%);
-  --color-text-light: hsl(0, 0%, 90%);
-  --color-text-muted-light: hsl(0, 0%, 80%);
-  --shadow-small: 0 4px 8px #000;
-  --glow-small: 0 0 12px var(--color-primary);
-  --glow: 0 0 24px var(--color-primary);
-  --glow-light: 0 0 6px var(--color-text-muted-light);
+  /* Surfaces */
+  --color-bg-dark: hsl(0, 0%, 5%);
+  --color-bg: hsl(0, 0%, 10%);
+  --color-bg-light: hsl(0, 0%, 15%);
+  --color-border: hsl(217, 20%, 25%);
+  --color-grid: hsl(221, 18%, 17%);
+
+  /* Text */
+  --color-fg: hsl(216, 11%, 92%); /* main text        (#e8eaed) */
+  --color-fg-muted: hsl(216, 7%, 74%); /* paragraphs       (#b8bcc2) */
+  --color-fg-dim: hsl(213, 5%, 63%); /* hints, captions  (#9aa0a6) */
+
+  /* Accent: blue */
+  --color-primary: hsl(217, 91%, 60%); /* text, borders, icons (#3b82f6) */
+  --color-primary-strong: hsl(
+    221,
+    83%,
+    53%
+  ); /* button fill under white text (#2563eb) */
+
+  /* Shadows (generate utilities: shadow-card, shadow-glow, shadow-glow-sm) */
+  --shadow-card: 0 24px 60px rgb(0 0 0 / 0.5);
+  --shadow-glow-sm: 0 0 12px
+    color-mix(in oklab, var(--color-primary) 55%, transparent);
+  --shadow-glow: 0 0 40px
+    color-mix(in oklab, var(--color-primary) 45%, transparent);
 }
 
+/* ───────────────────────── Base ───────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
   }
-
   body {
-    font-family: 'Montserrat', sans-serif;
-    @apply bg-bg-dark text-text-light w-full h-screen;
+    @apply min-h-dvh bg-bg-dark text-fg antialiased;
   }
-}
 
-@layer utilities {
+  ::selection {
+    background: color-mix(in oklab, var(--color-primary) 35%, transparent);
+  }
+
+  :focus-visible {
+    @apply rounded-md outline-2 outline-offset-4 outline-primary;
+  }
+
   h1 {
-    font-size: clamp(2rem , 3.6vw, 3rem);
-    @apply font-bold;
+    font-size: clamp(2.5rem, 5vw, 4.25rem);
+    @apply font-bold leading-tight tracking-tight;
   }
   h2 {
-    font-size: clamp(1.25rem , 2.4vw , 2.8rem);
+    font-size: clamp(1.375rem, 2.4vw, 2rem);
     @apply font-semibold;
   }
   h3 {
-    font-size: clamp(1.2rem, 1.8vw, 2.4rem);
-    @apply font-medium;
+    font-size: clamp(1.2rem, 1.8vw, 1.75rem);
+    @apply font-semibold;
   }
   h4 {
-    font-size: clamp(1rem, 1.4vw, 2.2rem);
+    font-size: clamp(1rem, 1.4vw, 1.25rem);
     @apply font-medium;
   }
   p {
-    font-size: clamp(0.8rem , 1.2vw , 2rem);
-    @apply text-text-muted-light;
+    font-size: clamp(1rem, 1.1vw, 1.125rem);
+    @apply leading-relaxed text-fg-muted;
   }
-  span {
+}
+
+/* ───────────────────────── Components ───────────────────────── */
+@layer components {
+  .section {
+    @apply px-[10%];
+  }
+  .btn {
+    @apply inline-flex gap-2 items-center justify-center rounded-xl px-5 py-3 font-semibold
+           transition duration-200;
+  }
+  .btn-primary {
+    @apply bg-primary-strong text-white hover:-translate-y-0.5 hover:shadow-glow-sm;
+  }
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary/10;
+  }
+
+  /* Round social icon button */
+  .icon-btn {
+    @apply flex size-11 items-center justify-center rounded-full border
+           border-border text-primary transition duration-200
+           hover:border-primary hover:shadow-glow-sm;
+  }
+
+  /* Stack chip: Vue, Nuxt… */
+  .chip {
+    @apply rounded-full border border-border px-3.5 py-1.5 text-sm text-fg-muted;
+  }
+  /* Navbar link with animated underline */
+  .nav-link {
+    @apply relative py-3 text-fg transition-colors duration-200 hover:text-primary;
+  }
+  .nav-link::after {
+    content: "";
+    @apply absolute bottom-1.5 left-0 h-0.5 w-full origin-left scale-x-0 bg-primary
+           transition-transform duration-200;
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current="true"]::after {
+    @apply scale-x-100;
+  }
+  .nav-link[aria-current="true"] {
     @apply text-primary;
   }
 
-  @keyframes blink {
-      50% {
-          background-color: transparent;
-      }
+  /* Typewriter cursor */
+
+  /* Window frame for the browser mockup */
+  .window {
+    @apply overflow-hidden rounded-2xl border border-border bg-bg shadow-card;
+  }
+}
+
+/* ───────────────────────── Utilities ───────────────────────── */
+@layer utilities {
+  /* Dotted background from the hero */
+  .bg-dots {
+    background-image: radial-gradient(var(--color-grid) 1px, transparent 1px);
+    background-size: 28px 28px;
   }
 }
