@@ -3,8 +3,8 @@ import { Icon } from "@iconify/vue";
 
 const media = [
   {
-    href: "https://github.com/Ta1an",
-    icon: "tabler:brand-github",
+    href: "https://wa.me/+77000241856",
+    icon: "tabler:brand-whatsapp",
   },
   {
     href: "https://www.linkedin.com/in/ta1an",
