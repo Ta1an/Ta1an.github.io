@@ -15,7 +15,7 @@ const reveal = {
 <template>
   <section
     id="home"
-    class="flex flex-col gap-10 pt-32 pb-20 sm:pt-40 lg:pt-44"
+    class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44"
   >
     <!-- Intro -->
     <div class="flex flex-col gap-8 items-center">

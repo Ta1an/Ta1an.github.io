@@ -2,72 +2,44 @@
 import { computed, ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { AnimatePresence, motion } from "motion-v";
+import Badge from "@/components/ui/badge.vue";
+import { projects } from "@/data/projects";
 
-type Project = {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  domain: string;
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const reveal = {
+  initial: { opacity: 0, y: 32 },
+  whileInView: { opacity: 1, y: 0 },
 };
-
-const projects: Project[] = [
-  {
-    id: "tanais",
-    title: "TANAIS",
-    category: "Корпоративный сайт",
-    description:
-      "Сайт центра психологической помощи с продуманной структурой, удобной навигацией и адаптивным интерфейсом.",
-    image: "/portfolio/tanais-hero.png",
-    domain: "tanais.kz",
-  },
-  {
-    id: "autorent",
-    title: "AutoRent",
-    category: "Веб-приложение",
-    description:
-      "Сервис аренды автомобилей с панелью управления, системой заявок и инструментами для партнёров.",
-    image: "/portfolio/autorent-dashboard.png",
-    domain: "AutoRent / Dashboard",
-  },
-];
 
 const activeId = ref("tanais");
 
 const activeProject = computed(
   () =>
-    projects.find((project) => project.id === activeId.value) ?? projects[0]!,
+    projects.find((project) => project.slug === activeId.value) ?? projects[0]!,
 );
-
-const ease = [0.22, 1, 0.36, 1] as const;
 </script>
 
 <template>
   <section id="#projects" class="flex flex-col gap-10">
-    <!-- Heading -->
-    <div
-      class="relative flex flex-col justify-between gap-6 border-b border-border/50 pb-6 md:flex-row md:items-end"
+    <Badge number="01" , text="Selected Works" />
+    <motion.div
+      :initial="reveal.initial"
+      :while-in-view="reveal.whileInView"
+      :in-view-options="{ once: true, amount: 0.2 }"
+      :transition="{ duration: 0.7, ease, delay: 0.1 }"
+      class="grid lg:grid-cols-2 items-center border-b border-border pb-6"
     >
-      <div>
-        <div
-          class="flex items-center gap-3 font-mono text-xs tracking-widest text-fg-dim uppercase"
-        >
-          <span class="text-primary">01 /</span>
-          Selected Works
-        </div>
+      <h2>
+        Избранные
+        <span class="text-primary">работы.</span>
+      </h2>
 
-        <h2>
-          Избранные
-          <span class="text-primary">работы.</span>
-        </h2>
-      </div>
-
-      <p class="max-w-sm">
+      <p class="max-w-sm justify-self-end">
         Реальные проекты, в которых я объединяю дизайн, разработку и внимание к
         деталям.
       </p>
-    </div>
+    </motion.div>
 
     <!-- Main featured project -->
     <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-14">
@@ -97,10 +69,10 @@ const ease = [0.22, 1, 0.36, 1] as const;
         <!-- Fixed image area -->
         <div class="relative aspect-video overflow-hidden">
           <AnimatePresence mode="sync" :initial="false">
-            <template v-for="project in projects" :key="project.id">
+            <template v-for="project in projects" :key="project.slug">
               <motion.img
-                v-if="activeId === project.id"
-                :key="project.id"
+                v-if="activeId === project.slug"
+                :key="project.slug"
                 :initial="{
                   opacity: 0,
                   y: 12,
@@ -132,10 +104,10 @@ const ease = [0.22, 1, 0.36, 1] as const;
       <!-- Information -->
       <div class="flex flex-col justify-center">
         <AnimatePresence mode="sync" :initial="false">
-          <template v-for="(project, index) in projects" :key="project.id">
+          <template v-for="(project, index) in projects" :key="project.slug">
             <motion.div
-              v-if="activeId === project.id"
-              :key="project.id"
+              v-if="activeId === project.slug"
+              :key="project.slug"
               :initial="{ opacity: 0, y: 15 }"
               :animate="{ opacity: 1, y: 0 }"
               :exit="{ opacity: 0, y: -10, position: 'absolute' }"
@@ -157,10 +129,10 @@ const ease = [0.22, 1, 0.36, 1] as const;
               </p>
 
               <a
-                href="#projects"
+                href="/projects"
                 class="group mt-2 inline-flex items-center gap-3 border-b border-primary pb-2 text-sm font-medium text-fg transition-colors hover:text-primary"
               >
-                Подробнее о проектах
+                Подробнее о проекте
 
                 <Icon
                   icon="tabler:arrow-up-right"
@@ -177,16 +149,16 @@ const ease = [0.22, 1, 0.36, 1] as const;
     <div class="grid grid-cols-2 gap-3 sm:gap-5">
       <button
         v-for="(project, index) in projects"
-        :key="project.id"
+        :key="project.slug"
         type="button"
-        :aria-pressed="activeId === project.id"
+        :aria-pressed="activeId === project.slug"
         class="group cursor-pointer overflow-hidden rounded-xl border text-left transition-colors duration-300"
         :class="
-          activeId === project.id
+          activeId === project.slug
             ? 'border-primary/80 bg-primary/5'
             : 'border-border/60 bg-bg/50 hover:border-primary/40'
         "
-        @click="activeId = project.id"
+        @click="activeId = project.slug"
       >
         <div class="relative aspect-video overflow-hidden bg-bg-dark">
           <img
@@ -199,7 +171,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
           <div
             class="absolute inset-0 bg-black/50 transition-opacity duration-300"
             :class="
-              activeId === project.id
+              activeId === project.slug
                 ? 'opacity-0'
                 : 'opacity-100 group-hover:opacity-30'
             "
@@ -220,12 +192,8 @@ const ease = [0.22, 1, 0.36, 1] as const;
           </div>
 
           <Icon
-          icon="tabler:arrow-right"
-            :class="
-              activeId === project.id
-                ? '-rotate-45'
-                : ''
-            "
+            icon="tabler:arrow-right"
+            :class="activeId === project.slug ? '-rotate-45' : ''"
             class="transition duration-200 size-4 shrink-0 text-fg-dim"
           />
         </div>

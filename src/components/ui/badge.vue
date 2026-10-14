@@ -1,14 +1,15 @@
 <script setup lang="ts">
 defineProps({
+  number: String,
   text: String,
 });
 </script>
 
 <template>
   <div
-    class="inline-flex items-center gap-3 bg-bg/40 rounded-full border border-border py-2 px-4 text-sm text-fg-dim"
+    class="flex items-center gap-3 font-mono text-xs tracking-widest text-fg-dim uppercase"
   >
-    <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
+    <span class="text-primary">{{ number }} /</span>
     {{ text }}
   </div>
 </template>
