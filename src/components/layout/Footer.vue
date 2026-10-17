@@ -38,8 +38,6 @@ const isActive = (path: string): boolean => {
 
   return route.path === path || route.path.startsWith(`${path}/`);
 };
-
-const ease = [0.22, 1, 0.36, 1] as const;
 </script>
 
 <template>
@@ -63,13 +61,12 @@ const ease = [0.22, 1, 0.36, 1] as const;
         :initial="{ opacity: 0, y: 20 }"
         :while-in-view="{ opacity: 1, y: 0 }"
         :in-view-options="{ once: true, amount: 0.2 }"
-        :transition="{ duration: 0.7, ease }"
         class="flex flex-col items-start gap-6"
       >
         <RouterLink
           to="/"
           aria-label="Ta1an — на главную"
-          class="inline-flex items-center text-3xl font-bold tracking-tight transition-opacity hover:opacity-80"
+          class="inline-flex items-center text-3xl font-bold tracking-tight transition-opacity hover:opacity-80 font-logo"
         >
           <span class="text-primary">&lt;</span>
           <span class="text-fg">Ta1an</span>
@@ -94,7 +91,6 @@ const ease = [0.22, 1, 0.36, 1] as const;
         :initial="{ opacity: 0, y: 20 }"
         :while-in-view="{ opacity: 1, y: 0 }"
         :in-view-options="{ once: true, amount: 0.2 }"
-        :transition="{ duration: 0.7, delay: 0.1, ease }"
         class="flex flex-col items-start gap-5"
       >
         <span
@@ -129,7 +125,6 @@ const ease = [0.22, 1, 0.36, 1] as const;
         :initial="{ opacity: 0, y: 20 }"
         :while-in-view="{ opacity: 1, y: 0 }"
         :in-view-options="{ once: true, amount: 0.2 }"
-        :transition="{ duration: 0.7, delay: 0.2, ease }"
         class="flex flex-col items-start gap-5"
       >
         <span

@@ -196,7 +196,7 @@ onUnmounted(() => {
     <!-- Logo -->
     <RouterLink
       to="/"
-      class="relative flex items-center gap-1 text-2xl font-bold tracking-tight transition-opacity hover:opacity-80 sm:text-3xl"
+      class="relative flex items-center gap-1 text-2xl font-bold tracking-tight transition-opacity hover:opacity-80 sm:text-3xl font-logo"
       aria-label="Ta1an — на главную"
       @click="handleNavigate"
     >
@@ -250,7 +250,7 @@ onUnmounted(() => {
       aria-modal="true"
       aria-label="Навигация по сайту"
       class="fixed inset-0 z-60 overflow-y-auto bg-bg-dark"
-      :initial="{ opacity: 0 }"
+      :initial="{ opacity: 0, }"
       :animate="{ opacity: 1 }"
       :exit="{ opacity: 0 }"
       :transition="menuTransition"

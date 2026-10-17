@@ -3,28 +3,38 @@ import { Icon } from "@iconify/vue";
 import { motion } from "motion-v";
 import ScrollIndicator from "@/components/ui/ScrollIndicator.vue";
 import { RouterLink } from "vue-router";
+import { fadeUp, delayChildren } from "@/components/utils/motion";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const bottomVariants = {
+  hidden: {
+    opacity: 0,
+    y: 15,
+  },
 
-const reveal = {
-  initial: { opacity: 0, y: 32 },
-  animate: { opacity: 1, y: 0 },
-};
+  visible: {
+    opacity: 1,
+    y: 0,
+
+    transition: {
+      type: "tween",
+      duration: 0.5,
+      delay: 0.8,
+      ease: "easeOut",
+    },
+  },
+} as const;
 </script>
 
 <template>
-  <section
-    id="home"
-    class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44"
-  >
+  <section id="home" class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44">
     <!-- Intro -->
-    <div class="flex flex-col gap-8 items-center">
-      <motion.div
-        :initial="reveal.initial"
-        :animate="reveal.animate"
-        :transition="{ duration: 0.7, ease }"
-        class="flex items-center gap-3"
-      >
+    <motion.div
+      :variants="delayChildren"
+      initial="hidden"
+      animate="visible"
+      class="flex flex-col gap-8 items-center"
+    >
+      <motion.div :variants="fadeUp" class="flex items-center gap-3">
         <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
 
         <span
@@ -36,30 +46,13 @@ const reveal = {
 
       <!-- Heading -->
       <div class="flex flex-col gap-6 text-center items-center">
-        <motion.h1
-          :initial="{ opacity: 0, y: 45 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{
-            duration: 0.95,
-            delay: 0.12,
-            ease,
-          }"
-        >
+        <motion.h1 :variants="fadeUp">
           От идеи — до
           <span class="block text-primary"> цифрового продукта. </span>
         </motion.h1>
 
         <!-- Description -->
-        <motion.p
-          :initial="reveal.initial"
-          :animate="reveal.animate"
-          :transition="{
-            duration: 0.75,
-            delay: 0.26,
-            ease,
-          }"
-          class="max-w-2xl"
-        >
+        <motion.p :variants="fadeUp" class="max-w-2xl">
           Создаю сайты и веб-приложения для бизнеса и личных проектов.
           Продумываю дизайн, функциональность и удобство — от первой идеи до
           запуска.
@@ -68,13 +61,7 @@ const reveal = {
 
       <!-- CTA -->
       <motion.div
-        :initial="reveal.initial"
-        :animate="reveal.animate"
-        :transition="{
-          duration: 0.7,
-          delay: 0.38,
-          ease,
-        }"
+        :variants="fadeUp"
         class="flex flex-wrap items-center justify-center gap-4"
       >
         <RouterLink to="/contacts" class="btn btn-primary">
@@ -84,16 +71,16 @@ const reveal = {
 
         <RouterLink to="/projects" class="btn btn-outline">
           Смотреть работы
-          <Icon
-            icon="tabler:arrow-up-right"
-            class="size-5"
-          />
+          <Icon icon="tabler:arrow-up-right" class="size-5" />
         </RouterLink>
       </motion.div>
-    </div>
+    </motion.div>
 
     <!-- Bottom -->
-    <div
+    <motion.div
+      :variants="bottomVariants"
+      initial="hidden"
+      animate="visible"
       class="mt-16 flex items-center justify-between gap-5 border-t border-border/40 pt-6 sm:mt-20"
     >
       <div class="flex flex-col gap-1">
@@ -107,6 +94,6 @@ const reveal = {
       </div>
 
       <ScrollIndicator />
-    </div>
+    </motion.div>
   </section>
 </template>

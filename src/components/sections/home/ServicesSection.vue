@@ -2,6 +2,8 @@
 import Badge from "@/components/ui/badge.vue";
 import { Icon } from "@iconify/vue";
 import { motion } from "motion-v";
+import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
+import { fade } from "@vueuse/motion";
 
 const services = [
   {
@@ -29,29 +31,24 @@ const services = [
     icon: "tabler:code",
   },
 ];
-
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const reveal = {
-  initial: { opacity: 0, y: 32 },
-  whileInView: { opacity: 1, y: 0 },
-};
 </script>
 
 <template>
-  <section
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    while-in-view="visible"
+    :in-view-options="viewport"
     id="services"
     aria-labelledby="services-title"
     class="relative overflow-hidden flex flex-col gap-10"
   >
-    <Badge number="02" text="What I do" />
-
+    <motion.div :variants="fadeUp">
+      <Badge number="02" text="What I do" />
+    </motion.div>
     <!-- Heading -->
     <motion.div
-      :initial="reveal.initial"
-      :while-in-view="reveal.whileInView"
-      :in-view-options="{ once: true, amount: 0.2 }"
-      :transition="{ duration: 0.7, ease, delay: 0.1 }"
+      :variants="fadeUp"
       class="grid gap-6 lg:grid-cols-[1.4fr_0.6fr] lg:items-end"
     >
       <h2>
@@ -66,20 +63,24 @@ const reveal = {
     </motion.div>
 
     <!-- Services -->
-    <div class="border-t border-border">
+    <motion.div
+      :variants="delayChildren"
+      initial="hidden"
+      while-in-view="visible"
+      :in-view-options="viewport"
+      class="border-t border-border"
+    >
       <motion.article
-        v-for="(service, index) in services"
+        v-for="service in services"
         :key="service.number"
-        :initial="{ opacity: 0, y: 30 }"
-        :while-in-view="{ opacity: 1, y: 0 }"
-        :in-view-options="{ once: true, amount: 0.15 }"
-        :transition="{
-          duration: 0.65,
-          delay: index * 0.08,
-          ease,
-        }"
-        class="group relative border-b border-border hover:bg-primary/4 duration-500"
+        :variants="fadeUp"
+        :in-view-options="viewport"
+        class="group relative border-b border-border"
       >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 bg-primary/4 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        />
         <div
           class="relative grid grid-cols-[auto_1fr_auto] gap-x-4 gap-y-6 py-9 sm:gap-x-7 sm:py-12 lg:grid-cols-[auto_1fr_1fr_auto] items-center lg:gap-8 lg:py-14"
         >
@@ -122,6 +123,6 @@ const reveal = {
           />
         </div>
       </motion.article>
-    </div>
-  </section>
+    </motion.div>
+  </motion.section>
 </template>

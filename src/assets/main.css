@@ -14,6 +14,10 @@
   --color-fg-muted: hsl(216, 7%, 74%); /* paragraphs */
   --color-fg-dim: hsl(213, 5%, 63%); /* hints, captions */
 
+  --font-sans: "Onest", sans-serif;
+  --font-heading: "Manrope", sans-serif;
+  --font-logo: "JetBrains Mono", monospace;
+
   /* Accent: blue */
   --color-primary: hsl(217, 91%, 60%); /* text, borders, icons (#3b82f6) */
   --color-primary-strong: hsl(
@@ -41,7 +45,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply min-h-dvh bg-bg-dark text-fg antialiased;
+    @apply min-h-dvh bg-bg-dark text-fg font-sans antialiased;
   }
 
   #app {
@@ -72,16 +76,20 @@
     padding: 4rem clamp(1.25rem, 10vw, 12rem);
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
   h1 {
-    font-size: clamp(4rem, 6vw, 7rem);
+    font-size: clamp(3rem, 6vw, 7rem);
     @apply font-medium leading-tight tracking-tight;
   }
   h2 {
-    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
     @apply font-medium;
   }
   h3 {
-    font-size: clamp(2.5rem, 3vw, 3.5rem);
+    font-size: clamp(2.5rem, 3vw, 3rem);
     @apply font-medium;
   }
   h4 {
@@ -114,7 +122,7 @@
            hover:border-primary hover:shadow-glow-sm;
   }
   /* Navbar link with animated underline */
- .nav-link {
+  .nav-link {
     @apply relative py-3 text-fg-muted
            transition-colors duration-200 hover:text-primary;
   }
@@ -144,7 +152,7 @@
 /* ───────────────────────── Utilities ───────────────────────── */
 
 @layer utilities {
-    .editorial-grid {
+  .editorial-grid {
     background-image: radial-gradient(
       circle,
       var(--color-grid) 0.8px,
@@ -163,54 +171,28 @@
     );
   }
 
+  .editorial-grid--highlight {
+    background-image: radial-gradient(
+      circle,
+      rgb(96 165 250 / 0.7) 0.9px,
+      transparent 1px
+    );
+
+    
+
+    mask-image: radial-gradient(
+      ellipse 45% 40% at 50% 50%,
+      black 0%,
+      transparent 100%
+    );
+  }
+
   .editorial-glow {
     background: radial-gradient(
       circle,
-      rgb(37 99 235 / 0.12) 0%,
-      rgb(37 99 235 / 0.05) 40%,
+      rgb(37 99 235 / 0.15) 0%,
+      rgb(37 99 235 / 0.07) 40%,
       transparent 72%
     );
-
-    animation: editorial-breathe 16s ease-in-out infinite alternate;
-  }
-
-  /* Project browser */
-  .editorial-browser {
-    border: 1px solid var(--color-border);
-    background: var(--color-bg);
-
-    box-shadow:
-      0 35px 100px rgb(0 0 0 / 0.5),
-      0 0 90px rgb(37 99 235 / 0.035);
-
-    transition:
-      border-color 400ms ease,
-      box-shadow 400ms ease;
-  }
-
-  @media (hover: hover) {
-    .editorial-browser:hover {
-      border-color: color-mix(
-        in oklab,
-        var(--color-primary) 35%,
-        var(--color-border)
-      );
-
-      box-shadow:
-        0 40px 110px rgb(0 0 0 / 0.55),
-        0 0 90px rgb(37 99 235 / 0.07);
-    }
-  }
-}
-
-@keyframes editorial-breathe {
-  from {
-    opacity: 0.65;
-    transform: scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1.05);
   }
 }

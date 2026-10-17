@@ -4,13 +4,7 @@ import { Icon } from "@iconify/vue";
 import { AnimatePresence, motion } from "motion-v";
 import Badge from "@/components/ui/badge.vue";
 import { projects } from "@/data/projects";
-
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const reveal = {
-  initial: { opacity: 0, y: 32 },
-  whileInView: { opacity: 1, y: 0 },
-};
+import { fadeUp, viewport, delayChildren } from "@/components/utils/motion";
 
 const activeId = ref("tanais");
 
@@ -18,16 +12,52 @@ const activeProject = computed(
   () =>
     projects.find((project) => project.slug === activeId.value) ?? projects[0]!,
 );
+
+const imgVariants = {
+  hidden: {
+    opacity: 0,
+    filter: "blur(8px)",
+  },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+  },
+};
+
+const infoVariants = {
+  hidden: {
+    opacity: 0,
+    x: 20,
+    filter: "blur(8px)",
+    transition: {
+      duration: 0.25,
+    },
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.25,
+    },
+  },
+};
 </script>
 
 <template>
-  <section id="#projects" class="flex flex-col gap-10">
-    <Badge number="01" , text="Selected Works" />
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    while-in-view="visible"
+    :in-view-options="viewport"
+    id="#projects"
+    class="flex flex-col gap-10"
+  >
+    <motion.div :variants="fadeUp" :in-view-options="viewport">
+      <Badge number="01" , text="Selected Works" />
+    </motion.div>
     <motion.div
-      :initial="reveal.initial"
-      :while-in-view="reveal.whileInView"
-      :in-view-options="{ once: true, amount: 0.2 }"
-      :transition="{ duration: 0.7, ease, delay: 0.1 }"
+      :variants="fadeUp"
       class="grid lg:grid-cols-2 items-center border-b border-border pb-6"
     >
       <h2>
@@ -42,7 +72,11 @@ const activeProject = computed(
     </motion.div>
 
     <!-- Main featured project -->
-    <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-14">
+    <motion.div
+      :variants="fadeUp"
+      :in-view-options="viewport"
+      class="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-14"
+    >
       <!-- Preview -->
       <div class="editorial-browser overflow-hidden rounded-xl">
         <!-- Browser header -->
@@ -73,24 +107,10 @@ const activeProject = computed(
               <motion.img
                 v-if="activeId === project.slug"
                 :key="project.slug"
-                :initial="{
-                  opacity: 0,
-                  y: 12,
-                  filter: 'blur(5px)',
-                }"
-                :animate="{
-                  opacity: 1,
-                  y: 0,
-                  filter: 'blur(0px)',
-                }"
-                :exit="{
-                  opacity: 0,
-                  filter: 'blur(5px)',
-                }"
-                :transition="{
-                  duration: 0.4,
-                  ease,
-                }"
+                :variants="imgVariants"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
                 :src="project.image"
                 :alt="`Скриншот проекта ${project.title}`"
                 class="absolute inset-0 bg-bg-dark block size-full object-contain sm:object-cover sm:object-top"
@@ -103,15 +123,15 @@ const activeProject = computed(
 
       <!-- Information -->
       <div class="flex flex-col justify-center">
-        <AnimatePresence mode="sync" :initial="false">
+        <AnimatePresence mode="wait" :initial="false">
           <template v-for="(project, index) in projects" :key="project.slug">
             <motion.div
               v-if="activeId === project.slug"
               :key="project.slug"
-              :initial="{ opacity: 0, y: 15 }"
-              :animate="{ opacity: 1, y: 0 }"
-              :exit="{ opacity: 0, y: -10, position: 'absolute' }"
-              :transition="{ duration: 0.3, ease }"
+              :variants="infoVariants"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
               class="flex flex-col items-start gap-5"
             >
               <span
@@ -143,10 +163,10 @@ const activeProject = computed(
           </template>
         </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
 
     <!-- Thumbnail selector -->
-    <div class="grid grid-cols-2 gap-3 sm:gap-5">
+    <motion.div :variants="fadeUp" class="grid grid-cols-2 gap-3 sm:gap-5">
       <button
         v-for="(project, index) in projects"
         :key="project.slug"
@@ -198,6 +218,6 @@ const activeProject = computed(
           />
         </div>
       </button>
-    </div>
-  </section>
+    </motion.div>
+  </motion.section>
 </template>

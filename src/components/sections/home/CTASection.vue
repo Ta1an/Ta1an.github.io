@@ -1,35 +1,25 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { motion } from "motion-v";
-
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const reveal = {
-  initial: {
-    opacity: 0,
-    y: 32,
-  },
-  whileInView: {
-    opacity: 1,
-    y: 0,
-  },
-};
+import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
 </script>
 
 <template>
-  <section
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    while-in-view="visible"
+    :in-view-options="viewport"
     id="cta"
     aria-labelledby="cta-title"
     class="relative flex flex-col gap-10"
   >
-    <!-- Ambient background -->
+
 
     <!-- Top label -->
     <motion.div
-      :initial="reveal.initial"
-      :while-in-view="reveal.whileInView"
-      :transition="{ duration: 0.7, ease }"
-      :in-view-options="{ once: true, amount: 0.2 }"
+      :variants="fadeUp"
+      :in-view-options="viewport"
       class="flex items-center gap-3"
     >
       <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
@@ -43,43 +33,18 @@ const reveal = {
 
     <!-- Main content -->
 
-    <motion.h1
-      id="cta-title"
-      :initial="{ opacity: 0, y: 44 }"
-      :while-in-view="{ opacity: 1, y: 0 }"
-      :in-view-options="{ once: true, amount: 0.3 }"
-      :transition="{ duration: 0.85, ease }"
-    >
+    <motion.h1 id="cta-title" :variants="fadeUp" :in-view-options="viewport">
       Давайте создадим
       <span class="block text-primary"> что-то значимое. </span>
     </motion.h1>
 
-    <motion.p
-      :initial="reveal.initial"
-      :while-in-view="reveal.whileInView"
-      :in-view-options="{ once: true, amount: 0.3 }"
-      :transition="{
-        duration: 0.7,
-        delay: 0.1,
-        ease,
-      }"
-      class="max-w-xl"
-    >
+    <motion.p :variants="fadeUp" :in-view-options="viewport" class="max-w-xl">
       Расскажите о своей идее или задаче. Вместе обсудим, какое решение подойдёт
       вашему проекту.
     </motion.p>
 
     <!-- CTA link -->
-    <motion.div
-      :initial="reveal.initial"
-      :while-in-view="reveal.whileInView"
-      :in-view-options="{ once: true, amount: 0.3 }"
-      :transition="{
-        duration: 0.7,
-        delay: 0.2,
-        ease,
-      }"
-    >
+    <motion.div :variants="fadeUp" :in-view-options="viewport">
       <RouterLink
         to="/contact"
         class="cta-link group inline-flex items-center gap-5 sm:gap-7"
@@ -101,5 +66,5 @@ const reveal = {
         </span>
       </RouterLink>
     </motion.div>
-  </section>
+  </motion.section>
 </template>
