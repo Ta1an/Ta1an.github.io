@@ -2,6 +2,22 @@
 import { Icon } from "@iconify/vue";
 import { motion } from "motion-v";
 import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
+
+type CtaButton = {
+  text: string;
+  to: string;
+};
+
+type Props = {
+  label: string;
+  title: string;
+  colorTitle?: string;
+  text: string;
+
+  primaryButton: CtaButton;
+};
+
+defineProps<Props>();
 </script>
 
 <template>
@@ -14,8 +30,6 @@ import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
     aria-labelledby="cta-title"
     class="relative flex flex-col gap-10"
   >
-
-
     <!-- Top label -->
     <motion.div
       :variants="fadeUp"
@@ -27,26 +41,25 @@ import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
       <span
         class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
       >
-        Есть проект? Давайте обсудим
+        {{ label }}
       </span>
     </motion.div>
 
     <!-- Main content -->
 
-    <motion.h1 id="cta-title" :variants="fadeUp" :in-view-options="viewport">
-      Давайте создадим
-      <span class="block text-primary"> что-то значимое. </span>
+    <motion.h1 id="cta-title" :variants="fadeUp">
+      {{ title }}
+      <span class="block text-primary"> {{ colorTitle }} </span>
     </motion.h1>
 
-    <motion.p :variants="fadeUp" :in-view-options="viewport" class="max-w-xl">
-      Расскажите о своей идее или задаче. Вместе обсудим, какое решение подойдёт
-      вашему проекту.
+    <motion.p :variants="fadeUp" class="max-w-xl">
+      {{ text }}
     </motion.p>
 
     <!-- CTA link -->
-    <motion.div :variants="fadeUp" :in-view-options="viewport">
+    <motion.div :variants="fadeUp">
       <RouterLink
-        to="/contact"
+        :to="primaryButton.to"
         class="cta-link group inline-flex items-center gap-5 sm:gap-7"
       >
         <span
@@ -62,7 +75,7 @@ import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
         <span
           class="border-b border-fg/50 pb-2 text-xl font-medium tracking-tight transition-colors duration-300 group-hover:border-primary group-hover:text-primary sm:text-3xl"
         >
-          Обсудить проект
+          {{ primaryButton.text }}
         </span>
       </RouterLink>
     </motion.div>

@@ -148,8 +148,8 @@ const infoVariants = {
                 {{ project.description }}
               </p>
 
-              <a
-                href="/projects"
+              <RouterLink
+                :to="`/projects/${activeProject.slug}`"
                 class="group mt-2 inline-flex items-center gap-3 border-b border-primary pb-2 text-sm font-medium text-fg transition-colors hover:text-primary"
               >
                 Подробнее о проекте
@@ -158,7 +158,7 @@ const infoVariants = {
                   icon="tabler:arrow-up-right"
                   class="size-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
-              </a>
+              </RouterLink>
             </motion.div>
           </template>
         </AnimatePresence>

@@ -1,471 +1,340 @@
-
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed } from "vue";
+import { useRoute, RouterLink } from "vue-router";
 import { Icon } from "@iconify/vue";
 import { motion } from "motion-v";
-import { useRoute } from "vue-router";
-
 import { projects } from "@/data/projects";
+import { caseStudies } from "@/data/caseStudies";
+import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
 
 const route = useRoute();
 
+const slug = computed(() => String(route.params.slug ?? ""));
+
 const project = computed(() =>
-  projects.find((item) => item.slug === route.params.slug),
+  projects.find((item) => item.slug === slug.value),
 );
 
-const nextProject = computed(() => {
-  if (!project.value) return null;
+const caseStudy = computed(() => caseStudies[slug.value]);
 
-  const index = projects.findIndex(
-    (item) => item.slug === project.value?.slug,
-  );
+const currentIndex = computed(() =>
+  projects.findIndex((item) => item.slug === slug.value),
+);
 
-  return projects[(index + 1) % projects.length] ?? null;
+const previousProject = computed(() => {
+  if (currentIndex.value === -1 || projects.length < 2) {
+    return null;
+  }
+
+  const index = (currentIndex.value - 1 + projects.length) % projects.length;
+
+  return projects[index];
 });
 
-const gallery = computed(() =>
-  project.value?.gallery.filter(
-    (image) => image !== project.value?.image,
-  ) ?? [],
-);
+const nextProject = computed(() => {
+  if (currentIndex.value === -1 || projects.length < 2) {
+    return null;
+  }
 
-const ease = [0.22, 1, 0.36, 1] as const;
+  const index = (currentIndex.value + 1) % projects.length;
 
-const reveal = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-};
-
-// Browser title
-watch(
-  project,
-  (value) => {
-    document.title = value
-      ? `${value.title} — Проекты | Ta1an`
-      : "Проект не найден | Ta1an";
-  },
-  { immediate: true },
-);
+  return projects[index];
+});
 </script>
 
 <template>
-  <div v-if="project" :key="project.slug">
-    <!-- Project Hero -->
-    <section
-      class="!px-5 pt-32 pb-12 sm:!px-8 sm:pt-40 lg:!px-12 lg:pt-48"
-    >
-      <div class="mx-auto max-w-350">
-        <!-- Breadcrumb -->
-        <motion.div
-          :initial="{ opacity: 0, y: 16 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.6, ease }"
+  <div v-if="project" :key="slug">
+    <!-- 01 / HERO -->
+    <section class="flex flex-col gap-16 pt-32 sm:pt-40 lg:pt-44">
+      <motion.div
+        :variants="delayChildren"
+        initial="hidden"
+        animate="visible"
+        class="flex flex-col gap-10"
+      >
+        <motion.nav
+          :variants="fadeUp"
+          aria-label="Навигация"
+          class="flex flex-wrap items-center gap-3 font-mono text-sm text-fg-dim"
         >
           <RouterLink
             to="/projects"
-            class="group inline-flex items-center gap-3 text-sm text-fg-dim transition-colors hover:text-primary"
+            class="transition-colors hover:text-primary"
+          >
+            Проекты
+          </RouterLink>
+
+          <span>/</span>
+
+          <span class="text-primary">
+            {{ project.title }}
+          </span>
+        </motion.nav>
+
+        <!-- Heading -->
+        <motion.div
+          :variants="fadeUp"
+          :in-view-options="viewport"
+          class="flex flex-col gap-6 lg:gap-8"
+        >
+          <span
+            class="font-mono text-xs uppercase tracking-[0.15em] text-primary"
+          >
+            {{ project.category }} / {{ project.year }}
+          </span>
+          <div
+            class="grid gap-6 lg:grid-cols-2 border-b border-border/40 pb-4"
+          >
+            <motion.div class="flex flex-col items-start gap-5">
+              <h1>
+                {{ project.title }}
+              </h1>
+            </motion.div>
+            <motion.div
+              :variants="fadeUp"
+              class="flex flex-wrap items-center gap-6 lg:justify-self-end"
+            >
+              <a
+                v-if="caseStudy?.website?.liveUrl"
+                :href="caseStudy.website.liveUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary"
+              >
+                Открыть сайт
+                <Icon icon="tabler:arrow-up-right" class="size-5" />
+              </a>
+
+              <a
+                v-if="caseStudy?.website?.githubUrl"
+                :href="caseStudy.website.githubUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group inline-flex items-center gap-2 text-sm transition-colors hover:text-primary"
+              >
+                <Icon icon="tabler:brand-github" class="size-5" />
+                GitHub
+              </a>
+
+              <RouterLink
+                to="/projects"
+                class="group inline-flex items-center gap-2 text-sm transition-colors hover:text-primary"
+              >
+                Все работы
+                <Icon icon="tabler:arrow-up-right" class="size-5" />
+              </RouterLink>
+            </motion.div>
+          </div>
+        </motion.div>
+        <!-- Breadcrumbs -->
+      </motion.div>
+
+      <motion.div
+        :variants="fadeUp"
+        initial="hidden"
+        while-in-view="visible"
+        :in-view-options="viewport"
+        class="editorial-browser overflow-hidden rounded-xl"
+      >
+        <!-- Browser header -->
+        <div
+          class="relative flex items-center justify-between border-b border-border/60 bg-bg-light p-4"
+        >
+          <div class="flex gap-1.5">
+            <span class="size-3 rounded-full bg-red-400/80" />
+            <span class="size-3 rounded-full bg-yellow-400/80" />
+            <span class="size-3 rounded-full bg-green-400/80" />
+          </div>
+
+          <span class="truncate font-mono text-lg text-fg-dim">
+            {{ project.domain }}
+          </span>
+
+          <Icon
+            icon="tabler:lock"
+            class="size-5 text-fg-dim"
+            aria-hidden="true"
+          />
+        </div>
+
+        <!-- Fixed image area -->
+        <div class="relative aspect-video overflow-hidden">
+          <img
+            :src="project.image"
+            :alt="`Скриншот проекта ${project.title}`"
+            class="absolute inset-0 bg-bg-dark block size-full object-contain sm:object-cover sm:object-top"
+            draggable="false"
+          />
+        </div>
+      </motion.div>
+
+      <motion.div
+        :variants="fadeUp"
+        initial="hidden"
+        while-in-view="visible"
+        :in-view-options="viewport"
+        class="grid grid-cols-1 gap-10 lg:grid-cols-[0.5fr_1fr] border-b border-border/40 pb-8"
+      >
+        <div v-if="caseStudy" class="flex flex-col">
+          <div
+            v-for="item in [
+              { label: 'Статус', value: caseStudy.details.status },
+              { label: 'Тип', value: caseStudy.details.type },
+              { label: 'Сфера', value: caseStudy.details.industry },
+              { label: 'Платформа', value: caseStudy.details.platform },
+            ]"
+            :key="item.label"
+            class="flex justify-between items-center border-t py-5 border-border/80"
+          >
+            <span class="font-mono text-base text-fg-dim">
+              {{ item.label }}
+            </span>
+
+            <span class="text-base font-medium">
+              {{ item.value }}
+            </span>
+          </div>
+
+          <div
+            v-if="caseStudy.website"
+            class="flex justify-between items-center border-y border-border/80 py-5"
+          >
+            <span class="font-mono text-base text-fg-dim"> Сайт </span>
+            <a
+              :href="caseStudy.website.liveUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-base font-medium transition-colors hover:text-primary"
+            >
+              {{ caseStudy.website.label }} ↗
+            </a>
+          </div>
+        </div>
+
+        <div
+          v-if="caseStudy"
+          aria-labelledby="about-project-heading"
+          class="flex flex-col gap-8 justify-self-end"
+        >
+          <h2 id="about-project-heading">
+            О проекте<span class="text-primary">.</span>
+          </h2>
+
+          <div class="flex max-w-4xl flex-col gap-5">
+            <p
+              v-for="(paragraph, index) in caseStudy.about"
+              :key="index"
+              class="leading-relaxed text-fg-muted"
+            >
+              {{ paragraph }}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        :variants="fadeUp"
+        initial="hidden"
+        while-in-view="visible"
+        :in-view-options="viewport"
+        v-if="caseStudy?.features.length"
+        aria-labelledby="features-heading"
+        class="flex flex-col gap-8"
+      >
+        <h2 id="features-heading">
+          Что есть на сайте<span class="text-primary">.</span>
+        </h2>
+
+        <ul class="grid gap-x-12 gap-y-5 md:grid-cols-2">
+          <li
+            v-for="feature in caseStudy.features"
+            :key="feature"
+            class="flex items-start gap-3"
+          >
+            <Icon
+              icon="tabler:check"
+              class="mt-1 size-4 shrink-0 text-primary"
+              aria-hidden="true"
+            />
+
+            <span class="text-fg-muted">
+              {{ feature }}
+            </span>
+          </li>
+        </ul>
+      </motion.div>
+
+      <motion.nav
+        v-if="previousProject && nextProject"
+        :key="`navigation-${slug}`"
+        :variants="fadeUp"
+        initial="hidden"
+        while-in-view="visible"
+        :in-view-options="viewport"
+        aria-label="Навигация между проектами"
+        class="grid grid-cols-1 border-t border-border/40 sm:grid-cols-2"
+      >
+        <!-- Previous Project -->
+        <RouterLink
+          :to="`/projects/${previousProject.slug}`"
+          class="group flex flex-col items-start gap-5 border-b border-border/40 py-8 transition-colors sm:border-r sm:border-b-0 sm:pr-10"
+        >
+          <span
+            class="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.15em] text-fg-dim"
           >
             <Icon
               icon="tabler:arrow-left"
-              class="size-4 transition-transform group-hover:-translate-x-1"
+              class="size-4 transition-transform duration-300 group-hover:-translate-x-1"
               aria-hidden="true"
             />
-            Все проекты
-          </RouterLink>
-        </motion.div>
 
-        <!-- Project heading -->
-        <motion.div
-          :initial="{ opacity: 0, y: 35 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.8, delay: 0.1, ease }"
-          class="mt-12"
-        >
-          <div
-            class="mb-7 flex flex-wrap items-center gap-3 font-mono text-xs tracking-wider uppercase"
-          >
-            <span class="text-primary">
-              Case Study /
-            </span>
-
-            <span class="text-fg-dim">
-              {{ project.category }}
-            </span>
-          </div>
-
-          <h1
-            class="!text-[clamp(3.5rem,11vw,10rem)] !leading-none !font-medium !tracking-[-0.07em]"
-          >
-            {{ project.title }}<span class="text-primary">.</span>
-          </h1>
-
-          <div
-            class="mt-9 flex flex-wrap items-end justify-between gap-8"
-          >
-            <p
-              class="max-w-180 !text-[clamp(1.125rem,2vw,1.75rem)] !leading-relaxed"
-            >
-              {{ project.subtitle }}
-            </p>
-
-            <a
-              v-if="project.websiteUrl"
-              :href="project.websiteUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="group inline-flex items-center gap-3 border-b border-primary pb-2 text-sm font-medium text-fg transition-colors hover:text-primary"
-            >
-              Посетить сайт
-              <Icon
-                icon="tabler:arrow-up-right"
-                class="size-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-              />
-            </a>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-
-    <!-- Main screenshot -->
-    <section class="!px-5 py-8 sm:!px-8 lg:!px-12">
-      <div class="mx-auto max-w-350">
-        <motion.div
-          :initial="{ opacity: 0, y: 40 }"
-          :while-in-view="{ opacity: 1, y: 0 }"
-          :viewport="{ once: true, amount: 0.1 }"
-          :transition="{ duration: 0.85, ease }"
-          class="overflow-hidden rounded-xl border border-border/60 bg-bg"
-        >
-          <img
-            :src="project.image"
-            :alt="`Главный экран проекта ${project.title}`"
-            class="block w-full"
-          />
-        </motion.div>
-      </div>
-    </section>
-
-    <!-- Project metadata -->
-    <section class="!px-5 py-14 sm:!px-8 lg:!px-12">
-      <div
-        class="mx-auto grid max-w-350 grid-cols-2 gap-8 border-y border-border/60 py-8 md:grid-cols-4"
-      >
-        <div>
-          <div class="project-meta-label">Проект</div>
-          <div class="mt-3 text-base text-fg">
-            {{ project.title }}
-          </div>
-        </div>
-
-        <div>
-          <div class="project-meta-label">Категория</div>
-          <div class="mt-3 text-base text-fg">
-            {{ project.category }}
-          </div>
-        </div>
-
-        <div>
-          <div class="project-meta-label">Моя роль</div>
-          <div class="mt-3 text-base text-fg">
-            {{ project.role }}
-          </div>
-        </div>
-
-        <div>
-          <div class="project-meta-label">Год</div>
-          <div class="mt-3 text-base text-fg">
-            {{ project.year }}
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Overview -->
-    <section class="!px-5 py-16 sm:!px-8 lg:!px-12 lg:py-25">
-      <div
-        class="mx-auto grid max-w-350 gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20"
-      >
-        <motion.div
-          :initial="reveal.initial"
-          :while-in-view="reveal.whileInView"
-          :viewport="{ once: true }"
-          :transition="{ duration: 0.7, ease }"
-        >
-          <span class="project-eyebrow">
-            01 / О проекте
-          </span>
-        </motion.div>
-
-        <motion.div
-          :initial="reveal.initial"
-          :while-in-view="reveal.whileInView"
-          :viewport="{ once: true, amount: 0.2 }"
-          :transition="{ duration: 0.7, ease }"
-        >
-          <h2 class="project-section-title">
-            Знакомство
-            <span class="text-primary">с проектом.</span>
-          </h2>
-
-          <p class="mt-8 max-w-190 !text-lg lg:!text-xl">
-            {{ project.overview }}
-          </p>
-        </motion.div>
-      </div>
-    </section>
-
-    <!-- Challenge and solution -->
-    <section
-      class="border-y border-border/40 bg-bg/30 !px-5 py-20 sm:!px-8 lg:!px-12 lg:py-30"
-    >
-      <div class="mx-auto grid max-w-350 gap-16 lg:grid-cols-2 lg:gap-24">
-        <motion.div
-          :initial="reveal.initial"
-          :while-in-view="reveal.whileInView"
-          :viewport="{ once: true, amount: 0.2 }"
-          :transition="{ duration: 0.7, ease }"
-        >
-          <span class="project-eyebrow">
-            02 / Задача
+            Предыдущий проект
           </span>
 
-          <h2 class="project-section-title mt-7">
-            Что нужно
-            <span class="text-primary">было решить.</span>
+          <h2 class="transition-colors duration-300 group-hover:text-primary">
+            {{ previousProject.title }}
           </h2>
 
-          <p class="mt-7">
-            {{ project.challenge }}
-          </p>
-        </motion.div>
-
-        <motion.div
-          :initial="reveal.initial"
-          :while-in-view="reveal.whileInView"
-          :viewport="{ once: true, amount: 0.2 }"
-          :transition="{ duration: 0.7, delay: 0.1, ease }"
-        >
-          <span class="project-eyebrow">
-            03 / Решение
+          <span class="text-sm text-fg-muted">
+            {{ previousProject.category }}
           </span>
+        </RouterLink>
 
-          <h2 class="project-section-title mt-7">
-            Как я
-            <span class="text-primary">подошёл к задаче.</span>
-          </h2>
-
-          <p class="mt-7">
-            {{ project.solution }}
-          </p>
-        </motion.div>
-      </div>
-    </section>
-
-    <!-- Features -->
-    <section class="!px-5 py-24 sm:!px-8 lg:!px-12 lg:py-36">
-      <div class="mx-auto max-w-350">
-        <motion.div
-          :initial="reveal.initial"
-          :while-in-view="reveal.whileInView"
-          :viewport="{ once: true }"
-          :transition="{ duration: 0.7, ease }"
-          class="mb-14"
-        >
-          <span class="project-eyebrow">
-            04 / Возможности
-          </span>
-
-          <h2 class="project-section-title mt-7">
-            Внимание
-            <span class="text-primary">к деталям.</span>
-          </h2>
-        </motion.div>
-
-        <div class="grid gap-x-12 md:grid-cols-2">
-          <motion.div
-            v-for="(feature, index) in project.features"
-            :key="feature.title"
-            :initial="{ opacity: 0, y: 20 }"
-            :while-in-view="{ opacity: 1, y: 0 }"
-            :viewport="{ once: true, amount: 0.2 }"
-            :transition="{
-              duration: 0.6,
-              delay: (index % 2) * 0.08,
-              ease,
-            }"
-            class="border-t border-border/60 py-8 sm:py-10"
-          >
-            <div class="flex items-start gap-5">
-              <span class="pt-1 font-mono text-xs text-primary">
-                {{ String(index + 1).padStart(2, "0") }}
-              </span>
-
-              <div>
-                <h3 class="!text-xl !font-medium sm:!text-2xl">
-                  {{ feature.title }}
-                </h3>
-
-                <p class="mt-4 max-w-md !text-sm sm:!text-base">
-                  {{ feature.description }}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Additional gallery -->
-    <section
-      v-if="gallery.length"
-      class="!px-5 pb-20 sm:!px-8 lg:!px-12 lg:pb-32"
-    >
-      <div class="mx-auto max-w-350">
-        <div class="mb-10">
-          <span class="project-eyebrow">
-            05 / Интерфейс
-          </span>
-
-          <h2 class="project-section-title mt-6">
-            Ближе
-            <span class="text-primary">к проекту.</span>
-          </h2>
-        </div>
-
-        <div class="grid gap-6">
-          <motion.div
-            v-for="(image, index) in gallery"
-            :key="image"
-            :initial="{ opacity: 0, y: 25 }"
-            :while-in-view="{ opacity: 1, y: 0 }"
-            :viewport="{ once: true, amount: 0.1 }"
-            :transition="{ duration: 0.7, ease }"
-            class="overflow-hidden rounded-xl border border-border/60 bg-bg"
-          >
-            <img
-              :src="image"
-              :alt="`Дополнительный экран проекта ${project.title}, ${index + 1}`"
-              loading="lazy"
-              class="block w-full"
-            />
-          </motion.div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Technologies -->
-    <section
-      class="border-t border-border/40 !px-5 py-20 sm:!px-8 lg:!px-12"
-    >
-      <div
-        class="mx-auto grid max-w-350 gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20"
-      >
-        <div>
-          <span class="project-eyebrow">
-            06 / Инструменты
-          </span>
-        </div>
-
-        <div>
-          <h2 class="project-section-title">
-            Технологии
-            <span class="text-primary">проекта.</span>
-          </h2>
-
-          <div class="mt-9 flex flex-wrap gap-3">
-            <span
-              v-for="technology in project.technologies"
-              :key="technology"
-              class="rounded-full border border-border px-5 py-2.5 text-sm text-fg-muted transition-colors hover:border-primary/40 hover:text-fg"
-            >
-              {{ technology }}
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Next project -->
-    <section
-      v-if="nextProject && nextProject.slug !== project.slug"
-      class="border-t border-border/60 !px-5 py-24 sm:!px-8 lg:!px-12 lg:py-36"
-    >
-      <div class="mx-auto max-w-350">
+        <!-- Next Project -->
         <RouterLink
           :to="`/projects/${nextProject.slug}`"
-          class="group block"
+          class="group flex flex-col items-start gap-5 py-8 transition-colors sm:items-end sm:pl-10 sm:text-right"
         >
-          <div class="flex items-center justify-between gap-4">
-            <span class="project-eyebrow">
-              Следующий проект
-            </span>
+          <span
+            class="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.15em] text-fg-dim"
+          >
+            Следующий проект
 
             <Icon
-              icon="tabler:arrow-up-right"
-              class="size-7 text-primary transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 sm:size-9"
+              icon="tabler:arrow-right"
+              class="size-4 transition-transform duration-300 group-hover:translate-x-1"
               aria-hidden="true"
             />
-          </div>
+          </span>
 
-          <h2
-            class="mt-8 !text-[clamp(3.5rem,10vw,9rem)] !leading-none !font-medium !tracking-[-0.065em] transition-colors duration-300 group-hover:text-primary"
-          >
+          <h2 class="transition-colors duration-300 group-hover:text-primary">
             {{ nextProject.title }}
-            <span class="text-primary">.</span>
           </h2>
 
-          <div
-            class="mt-8 flex items-center justify-between gap-5 border-t border-border/60 pt-6"
-          >
-            <span class="text-sm text-fg-muted">
-              {{ nextProject.category }}
-            </span>
-
-            <span class="font-mono text-xs text-fg-dim">
-              {{ nextProject.year }}
-            </span>
-          </div>
+          <span class="text-sm text-fg-muted">
+            {{ nextProject.category }}
+          </span>
         </RouterLink>
-      </div>
+      </motion.nav>
     </section>
   </div>
 
-  <!-- Unknown project -->
-  <section
-    v-else
-    class="flex min-h-svh flex-col items-center justify-center gap-6 text-center"
-  >
-    <span class="font-mono text-xs text-primary">
-      404 / PROJECT NOT FOUND
-    </span>
-
+  <!-- Not Found -->
+  <section v-else class="flex min-h-[60vh] flex-col justify-center gap-8 pt-32">
     <h1>Проект не найден.</h1>
 
-    <p>
-      Возможно, ссылка устарела или проект был перемещён.
-    </p>
-
-    <RouterLink to="/projects" class="btn btn-primary">
+    <RouterLink to="/projects" class="btn btn-outline w-fit">
       Все проекты
-      <Icon icon="tabler:arrow-up-right" class="size-5" />
     </RouterLink>
   </section>
 </template>
-
-<style scoped>
-
-@reference '@/assets/main.css';
-
-
-.project-eyebrow {
-  @apply font-mono text-xs tracking-[0.15em] text-primary uppercase;
-}
-
-.project-section-title {
-  @apply text-[clamp(2rem,4.5vw,4.5rem)] leading-[1.1] font-medium tracking-[-0.05em];
-}
-
-.project-meta-label {
-  @apply font-mono text-[11px] tracking-[0.12em] text-fg-dim uppercase;
-}
-</style>

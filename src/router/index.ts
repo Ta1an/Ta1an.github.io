@@ -1,8 +1,4 @@
-
-import {
-  createRouter,
-  createWebHistory,
-} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 import HomePage from "@/pages/HomePage.vue";
 
@@ -43,17 +39,8 @@ const router = createRouter({
     },
   ],
 
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) return savedPosition;
-
-    if (to.hash) {
-      return {
-        el: to.hash,
-        behavior: "smooth",
-      };
-    }
-
-    return { top: 0 };
+  scrollBehavior() {
+    return false;
   },
 });
 

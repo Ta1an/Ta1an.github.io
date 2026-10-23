@@ -10,10 +10,12 @@ const currentYear = new Date().getFullYear();
 const navItems = [
   { label: "Главная", to: "/" },
   { label: "Проекты", to: "/projects" },
-  { label: "Как я работаю", to: "/process" },
   { label: "Обо мне", to: "/about" },
+  { label: "Навыки", to: "/expertise" },
+  { label: "Услуги", to: "/services" },
   { label: "Контакты", to: "/contact" },
 ];
+
 
 const socialLinks = [
   {

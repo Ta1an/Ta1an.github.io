@@ -40,7 +40,7 @@ const bottomVariants = {
         <span
           class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
         >
-          Независимый веб-разработчик / Казахстан
+          FRONTEND DEVELOPER / АЛМАТЫ, КАЗАХСТАН
         </span>
       </motion.div>
 
@@ -53,9 +53,9 @@ const bottomVariants = {
 
         <!-- Description -->
         <motion.p :variants="fadeUp" class="max-w-2xl">
-          Создаю сайты и веб-приложения для бизнеса и личных проектов.
-          Продумываю дизайн, функциональность и удобство — от первой идеи до
-          запуска.
+          Разрабатываю современные сайты и веб-приложения. Объединяю продуманные
+          интерфейсы, чистый код и внимание к деталям, чтобы создавать удобные и
+          выразительные цифровые продукты.
         </motion.p>
       </div>
 
@@ -87,7 +87,7 @@ const bottomVariants = {
         <span
           class="font-mono text-[10px] tracking-[0.15em] text-fg-dim uppercase"
         >
-          Independent developer
+          Frontend developer
         </span>
 
         <span class="text-xs text-fg-muted"> Алматы, Казахстан </span>

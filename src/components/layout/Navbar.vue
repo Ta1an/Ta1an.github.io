@@ -2,7 +2,7 @@
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 
 import { Icon } from "@iconify/vue";
-import { AnimatePresence, motion } from "motion-v";
+import { AnimatePresence, motion, stagger } from "motion-v";
 import { RouterLink, useRoute } from "vue-router";
 
 const route = useRoute();
@@ -10,8 +10,9 @@ const route = useRoute();
 const navItems = [
   { label: "Главная", to: "/" },
   { label: "Проекты", to: "/projects" },
-  { label: "Как я работаю", to: "/process" },
   { label: "Обо мне", to: "/about" },
+  { label: "Навыки", to: "/expertise" },
+  { label: "Услуги", to: "/services" },
   { label: "Контакты", to: "/contact" },
 ];
 
@@ -35,19 +36,45 @@ const socialLinks = [
 
 const isMenuOpen = ref(false);
 const isScrolled = ref(false);
+const footerVisible = ref(false);
+
+const handleNavAnimationComplete = (index: number) => {
+  if (isMenuOpen.value && index === navItems.length - 1) {
+    footerVisible.value = true;
+  }
+};
+
+const footerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: stagger(0.2),
+    },
+  },
+} as const;
+
+const footerItemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 15,
+    filter: "blur(5px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+} as const;
 
 const menuButton = ref<HTMLButtonElement | null>(null);
 const closeButton = ref<HTMLButtonElement | null>(null);
 const menuContent = ref<HTMLElement | null>(null);
 
 const menuId = "editorial-navigation";
-
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const menuTransition = {
-  duration: 0.4,
-  ease,
-};
 
 let previousOverflow = "";
 let previousFocus: HTMLElement | null = null;
@@ -70,6 +97,8 @@ const updateScroll = () => {
 const openMenu = async () => {
   if (isMenuOpen.value) return;
 
+  footerVisible.value = false;
+
   previousFocus = document.activeElement as HTMLElement | null;
   isMenuOpen.value = true;
 
@@ -82,6 +111,7 @@ const openMenu = async () => {
 const closeMenu = (restoreFocus = true) => {
   if (!isMenuOpen.value) return;
 
+  footerVisible.value = false;
   isMenuOpen.value = false;
 
   if (restoreFocus) {
@@ -250,10 +280,9 @@ onUnmounted(() => {
       aria-modal="true"
       aria-label="Навигация по сайту"
       class="fixed inset-0 z-60 overflow-y-auto bg-bg-dark"
-      :initial="{ opacity: 0, }"
+      :initial="{ opacity: 0 }"
       :animate="{ opacity: 1 }"
       :exit="{ opacity: 0 }"
-      :transition="menuTransition"
     >
       <div ref="menuContent" class="relative flex min-h-dvh flex-col">
         <!-- Background glow -->
@@ -312,13 +341,12 @@ onUnmounted(() => {
             <motion.a
               :href="href"
               class="group flex items-baseline justify-center gap-3 py-1 text-center sm:gap-5"
-              :initial="{ opacity: 0, y: 25 }"
-              :animate="{ opacity: 1, y: 0 }"
+              :initial="{ opacity: 0, filter: 'blur(8px)', y: 25 }"
+              :animate="{ opacity: 1, filter: 'blur(0px)', y: 0 }"
               :exit="{ opacity: 0, y: -12 }"
               :transition="{
                 duration: 0.5,
-                delay: index * 0.06,
-                ease,
+                delay: index * 0.08,
               }"
               :aria-current="isActive(item.to) ? 'page' : undefined"
               @click="
@@ -327,6 +355,7 @@ onUnmounted(() => {
                   handleNavigate();
                 }
               "
+              @animation-complete="handleNavAnimationComplete(index)"
             >
               <!-- Index -->
               <span class="font-mono text-[10px] text-fg-dim sm:text-xs">
@@ -335,7 +364,7 @@ onUnmounted(() => {
 
               <!-- Label -->
               <span
-                class="text-[clamp(2.2rem,5.5vw,5.5rem)] leading-[1.15] font-medium tracking-[-0.055em] transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary"
+                class="text-[clamp(3rem,5vw,4.5rem)] leading-[1.15] font-medium tracking-[-0.055em] transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary"
                 :class="isActive(item.to) ? 'text-primary' : 'text-fg'"
               >
                 {{ item.label }}
@@ -345,11 +374,40 @@ onUnmounted(() => {
         </nav>
 
         <!-- Footer -->
-        <div
-          class="relative mx-auto flex w-full max-w-350 flex-wrap items-center justify-between gap-5 border-t border-border/50 px-6 py-6 sm:px-10"
+
+        <motion.div
+          :variants="footerVariants"
+          initial="hidden"
+          :animate="footerVisible ? 'visible' : 'hidden'"
+          :inert="!footerVisible"
+          :aria-hidden="!footerVisible"
+          class="relative mx-auto flex w-full max-w-350 flex-wrap items-center justify-between gap-5 px-6 py-6 sm:px-10"
         >
+          <motion.div
+            :initial="{ opacity: 0, scaleX: 0 }"
+            :animate="
+              footerVisible
+                ? {
+                    opacity: 1,
+                    scaleX: 1,
+                  }
+                : {
+                    opacity: 0,
+                    scaleX: 0,
+                  }
+            "
+            :transition="{
+              duration: 0.8,
+              ease: 'easeInOut',
+            }"
+            class="h-px mb-4 w-full origin-left bg-border/40"
+          />
+
           <!-- Availability -->
-          <div class="flex items-center gap-3">
+          <motion.div
+            :variants="footerItemVariants"
+            class="flex items-center gap-3"
+          >
             <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
 
             <span
@@ -357,23 +415,30 @@ onUnmounted(() => {
             >
               Открыт к сотрудничеству
             </span>
-          </div>
+          </motion.div>
 
-          <!-- Social links -->
-          <div class="flex items-center gap-4">
-            <a
+          <motion.div
+            :variants="footerItemVariants"
+            class="flex items-center gap-4"
+          >
+            <motion.a
               v-for="social in socialLinks"
+              :while-hover="{
+                color: '#3c83f6',
+                borderColor: '#3c83f6',
+                backgroundColor: '#3c83f61a',
+              }"
               :key="social.label"
               :href="social.href"
               :aria-label="social.label"
               target="_blank"
               rel="noopener noreferrer"
-              class="icon-btn"
+              class="flex size-12 items-center justify-center rounded-full border border-border"
             >
-              <Icon :icon="social.icon" class="size-5" aria-hidden="true" />
-            </a>
-          </div>
-        </div>
+              <Icon :icon="social.icon" class="size-6" aria-hidden="true" />
+            </motion.a>
+          </motion.div>
+        </motion.div>
       </div>
     </motion.div>
   </AnimatePresence>

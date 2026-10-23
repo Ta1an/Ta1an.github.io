@@ -1,117 +1,122 @@
-
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { motion } from "motion-v";
+import Badge from "@/components/ui/badge.vue";
+import CTASection from "@/components/ui/CTASection.vue";
 import ProjectCard from "@/components/sections/projects/projectCard.vue";
 import { projects } from "@/data/projects";
+import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
+import ScrollIndicator from "@/components/ui/ScrollIndicator.vue";
 
-type Filter = "all" | "website" | "application";
+const projectCount = computed(() => String(projects.length).padStart(2, "0"));
 
-const activeFilter = ref<Filter>("all");
+const projectLabel = computed(() => {
+  const count = projects.length;
+  const mod10 = count % 10;
+  const mod100 = count % 100;
 
-const filters: { label: string; value: Filter }[] = [
-  { label: "Все проекты", value: "all" },
-  { label: "Сайты", value: "website" },
-  { label: "Веб-приложения", value: "application" },
-];
+  if (mod10 === 1 && mod100 !== 11) {
+    return "реализованный проект";
+  }
 
-const filteredProjects = computed(() => {
-  if (activeFilter.value === "all") return projects;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+    return "реализованных проекта";
+  }
 
-  return projects.filter((project) =>
-    activeFilter.value === "website"
-      ? project.slug === "tanais"
-      : project.slug === "autorent",
-  );
+  return "реализованных проектов";
 });
-
-const ease = [0.22, 1, 0.36, 1] as const;
 </script>
 
 <template>
-  <div>
-    <section
-      class="!px-5 pt-36 pb-10 sm:!px-8 sm:pt-44 lg:!px-12 lg:pt-52"
+  <!-- Projects Hero -->
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    animate="visible"
+    aria-labelledby="projects-heading"
+    id="projects"
+    class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44"
+  >
+    <motion.div :variants="fadeUp">
+      <Badge number="01" text="Selected Works" />
+    </motion.div>
+
+    <!-- Heading -->
+    <div class="flex flex-col gap-8">
+      <motion.h1 id="projects-heading" :variants="fadeUp" class="max-w-5xl">
+        Работы, которые
+        <span class="text-primary"> говорят за меня. </span>
+      </motion.h1>
+
+      <motion.p :variants="fadeUp" class="max-w-2xl">
+        Подборка проектов, в которых я объединяю дизайн, разработку и внимание к
+        деталям. Каждый из них — отдельная задача, подход и опыт.
+      </motion.p>
+    </div>
+
+    <!-- Meta -->
+    <motion.div
+      :variants="fadeUp"
+      class="flex mt-12 items-center justify-between gap-5 border-t border-border/40 pt-6 sm:mt-20"
     >
-      <div class="mx-auto max-w-350">
-        <motion.div
-          :initial="{ opacity: 0, y: 32 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.8, ease }"
-        >
-          <div class="mb-8 flex items-center gap-3">
-            <span class="font-mono text-xs text-primary">
-              01 /
-            </span>
+      <span
+        class="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-dim"
+      >
+        Portfolio / 2026
+      </span>
 
-            <span
-              class="font-mono text-xs tracking-widest text-fg-dim uppercase"
-            >
-              Portfolio / Selected work
-            </span>
-          </div>
+      <ScrollIndicator />
+    </motion.div>
+  </motion.section>
 
-          <h1
-            class="max-w-250 !text-[clamp(3.5rem,9vw,9rem)] !leading-[1.05] !font-medium !tracking-[-0.065em]"
-          >
-            Мои <span class="text-primary">проекты.</span>
-          </h1>
+  <!-- Projects Grid -->
+  <section class="flex flex-col gap-8">
+    <motion.div
+      :variants="delayChildren"
+      initial="hidden"
+      while-in-view="visible"
+      :in-view-options="viewport"
+      class="flex flex-col gap-3 border-b border-border/40 pb-6"
+    >
+      <motion.div :variants="fadeUp">
+        <Badge number="02" text="All works" />
+      </motion.div>
+      <motion.div :variants="fadeUp" class="flex items-center gap-3">
+        <span class="font-mono text-6xl font-medium text-primary">
+          {{ projectCount }}
+        </span>
 
-          <div
-            class="mt-9 flex flex-wrap items-end justify-between gap-8"
-          >
-            <p class="max-w-155 !text-base sm:!text-lg">
-              От презентационных сайтов до функциональных
-              веб-приложений. Каждый проект — отдельная задача,
-              продуманный интерфейс и внимание к деталям.
-            </p>
+        <span class="text-xl text-fg-muted">{{ projectLabel }}</span>
+      </motion.div>
+    </motion.div>
 
-            <span
-              class="font-mono text-xs tracking-wider text-fg-dim uppercase"
-            >
-              {{ String(projects.length).padStart(2, "0") }}
-              проекта
-            </span>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+    <motion.div
+      :variants="delayChildren"
+      initial="hidden"
+      while-in-view="visible"
+      :in-view-options="viewport"
+      class="grid grid-cols-1 gap-x-6 gap-y-14 md:grid-cols-2 lg:gap-x-8 lg:gap-y-20"
+    >
+      <ProjectCard
+        v-for="(project, index) in projects"
+        :key="project.slug"
+        :project="project"
+        :index="index"
+      />
+    </motion.div>
+  </section>
 
-    <section class="!px-5 pt-6 pb-24 sm:!px-8 lg:!px-12">
-      <div class="mx-auto max-w-350">
-        <!-- Filters -->
-        <div class="flex flex-wrap gap-2 pb-8">
-          <button
-            v-for="filter in filters"
-            :key="filter.value"
-            type="button"
-            :aria-pressed="activeFilter === filter.value"
-            class="cursor-pointer rounded-full border px-5 py-2.5 text-sm font-medium transition-colors duration-300"
-            :class="
-              activeFilter === filter.value
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border text-fg-dim hover:border-primary/40 hover:text-fg'
-            "
-            @click="activeFilter = filter.value"
-          >
-            {{ filter.label }}
-          </button>
-        </div>
-
-        <!-- Projects -->
-        <div v-if="filteredProjects.length">
-          <ProjectCard
-            v-for="project in filteredProjects"
-            :key="project.slug"
-            :project="project"
-            :index="projects.indexOf(project)"
-          />
-        </div>
-
-        <p v-else class="py-16 text-center">
-          Пока нет проектов в этой категории.
-        </p>
-      </div>
-    </section>
-  </div>
+  <!-- CTA -->
+  <CTASection
+    label="Есть идея? Давайте обсудим"
+    title="Следующий проект"
+    color-title="может быть вашим."
+    text="Открыт к новым проектам и
+            профессиональному сотрудничеству.
+            Давайте создадим что-то интересное."
+    :primary-button="{
+      text: 'Связаться со мной',
+      to: '/contact',
+    }"
+  />
 </template>

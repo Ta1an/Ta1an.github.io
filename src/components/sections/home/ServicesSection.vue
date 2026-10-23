@@ -3,7 +3,6 @@ import Badge from "@/components/ui/badge.vue";
 import { Icon } from "@iconify/vue";
 import { motion } from "motion-v";
 import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
-import { fade } from "@vueuse/motion";
 
 const services = [
   {
@@ -44,7 +43,7 @@ const services = [
     class="relative overflow-hidden flex flex-col gap-10"
   >
     <motion.div :variants="fadeUp">
-      <Badge number="02" text="What I do" />
+      <Badge number="03" text="What I do" />
     </motion.div>
     <!-- Heading -->
     <motion.div
