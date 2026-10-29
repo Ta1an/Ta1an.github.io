@@ -28,7 +28,7 @@ defineProps<Props>();
     :in-view-options="viewport"
     id="cta"
     aria-labelledby="cta-title"
-    class="relative flex flex-col gap-10"
+    class="relative flex flex-col first-space"
   >
     <!-- Top label -->
     <motion.div
@@ -60,7 +60,7 @@ defineProps<Props>();
     <motion.div :variants="fadeUp">
       <RouterLink
         :to="primaryButton.to"
-        class="cta-link group inline-flex items-center gap-5 sm:gap-7"
+        class="cta-link group inline-flex items-center second-space"
       >
         <span
           class="flex size-15 shrink-0 items-center justify-center rounded-full bg-primary-strong text-white transition-all duration-500 group-hover:scale-110 group-hover:shadow-glow sm:size-19"

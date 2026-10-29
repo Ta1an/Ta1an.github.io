@@ -51,21 +51,21 @@ const infoVariants = {
     while-in-view="visible"
     :in-view-options="viewport"
     id="#projects"
-    class="flex flex-col gap-10"
+    class="flex flex-col first-space"
   >
     <motion.div :variants="fadeUp" :in-view-options="viewport">
       <Badge number="01" , text="Selected Works" />
     </motion.div>
     <motion.div
       :variants="fadeUp"
-      class="grid lg:grid-cols-2 items-center border-b border-border pb-6"
+      class="grid lg:grid-cols-2 second-space items-center border-b border-border pb-6"
     >
       <h2>
         Избранные
         <span class="text-primary">работы.</span>
       </h2>
 
-      <p class="max-w-sm justify-self-end">
+      <p class="max-w-sm lg:justify-self-end">
         Реальные проекты, в которых я объединяю дизайн, разработку и внимание к
         деталям.
       </p>
@@ -75,7 +75,7 @@ const infoVariants = {
     <motion.div
       :variants="fadeUp"
       :in-view-options="viewport"
-      class="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-14"
+      class="grid grid-cols-1 items-center second-space lg:grid-cols-2 lg:gap-14"
     >
       <!-- Preview -->
       <div class="editorial-browser overflow-hidden rounded-xl">
@@ -166,7 +166,7 @@ const infoVariants = {
     </motion.div>
 
     <!-- Thumbnail selector -->
-    <motion.div :variants="fadeUp" class="grid grid-cols-2 gap-3 sm:gap-5">
+    <motion.div :variants="fadeUp" class="grid grid-cols-2 third-space">
       <button
         v-for="(project, index) in projects"
         :key="project.slug"

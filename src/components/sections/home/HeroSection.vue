@@ -26,54 +26,52 @@ const bottomVariants = {
 </script>
 
 <template>
-  <section id="home" class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44">
-    <!-- Intro -->
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      animate="visible"
-      class="flex flex-col gap-8 items-center"
-    >
-      <motion.div :variants="fadeUp" class="flex items-center gap-3">
-        <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    animate="visible"
+    id="home"
+    class="flex flex-col items-center first-space pt-32 sm:pt-40 lg:pt-44"
+  >
+    <motion.div :variants="fadeUp" class="flex items-center gap-3">
+      <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
 
-        <span
-          class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
-        >
-          FRONTEND DEVELOPER / АЛМАТЫ, КАЗАХСТАН
-        </span>
-      </motion.div>
-
-      <!-- Heading -->
-      <div class="flex flex-col gap-6 text-center items-center">
-        <motion.h1 :variants="fadeUp">
-          От идеи — до
-          <span class="block text-primary"> цифрового продукта. </span>
-        </motion.h1>
-
-        <!-- Description -->
-        <motion.p :variants="fadeUp" class="max-w-2xl">
-          Разрабатываю современные сайты и веб-приложения. Объединяю продуманные
-          интерфейсы, чистый код и внимание к деталям, чтобы создавать удобные и
-          выразительные цифровые продукты.
-        </motion.p>
-      </div>
-
-      <!-- CTA -->
-      <motion.div
-        :variants="fadeUp"
-        class="flex flex-wrap items-center justify-center gap-4"
+      <span
+        class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
       >
-        <RouterLink to="/contacts" class="btn btn-primary">
-          Обсудить проект
-          <Icon icon="tabler:arrow-up-right" class="size-5" />
-        </RouterLink>
+        FRONTEND DEVELOPER / АЛМАТЫ, КАЗАХСТАН
+      </span>
+    </motion.div>
 
-        <RouterLink to="/projects" class="btn btn-outline">
-          Смотреть работы
-          <Icon icon="tabler:arrow-up-right" class="size-5" />
-        </RouterLink>
-      </motion.div>
+    <!-- Heading -->
+    <div class="flex flex-col second-space text-center items-center">
+      <motion.h1 :variants="fadeUp">
+        От идеи — до
+        <span class="block text-primary"> цифрового продукта. </span>
+      </motion.h1>
+
+      <!-- Description -->
+      <motion.p :variants="fadeUp" class="max-w-2xl">
+        Разрабатываю современные сайты и веб-приложения. Объединяю продуманные
+        интерфейсы, чистый код и внимание к деталям, чтобы создавать удобные и
+        выразительные цифровые продукты.
+      </motion.p>
+    </div>
+
+    <!-- CTA -->
+    <motion.div
+      :variants="fadeUp"
+      class="flex flex-wrap items-center justify-center third-space"
+    >
+      <RouterLink to="/contact" class="btn btn-primary">
+        Обсудить проект
+        <Icon icon="tabler:arrow-up-right" class="size-5" />
+      </RouterLink>
+
+      <RouterLink to="/projects" class="btn btn-outline">
+        Смотреть работы
+        <Icon icon="tabler:arrow-up-right" class="size-5" />
+      </RouterLink>
     </motion.div>
 
     <!-- Bottom -->
@@ -81,7 +79,7 @@ const bottomVariants = {
       :variants="bottomVariants"
       initial="hidden"
       animate="visible"
-      class="mt-16 flex items-center justify-between gap-5 border-t border-border/40 pt-6 sm:mt-20"
+      class="mt-16 flex items-center self-stretch justify-between gap-5 border-t border-border/40 pt-6 sm:mt-20"
     >
       <div class="flex flex-col gap-1">
         <span
@@ -95,5 +93,5 @@ const bottomVariants = {
 
       <ScrollIndicator />
     </motion.div>
-  </section>
+  </motion.section>
 </template>

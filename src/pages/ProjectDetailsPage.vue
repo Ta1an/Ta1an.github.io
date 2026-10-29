@@ -45,12 +45,12 @@ const nextProject = computed(() => {
 <template>
   <div v-if="project" :key="slug">
     <!-- 01 / HERO -->
-    <section class="flex flex-col gap-16 pt-32 sm:pt-40 lg:pt-44">
+    <section class="flex flex-col first-space pt-32 sm:pt-40 lg:pt-44">
       <motion.div
         :variants="delayChildren"
         initial="hidden"
         animate="visible"
-        class="flex flex-col gap-10"
+        class="flex flex-col second-space"
       >
         <motion.nav
           :variants="fadeUp"
@@ -75,7 +75,7 @@ const nextProject = computed(() => {
         <motion.div
           :variants="fadeUp"
           :in-view-options="viewport"
-          class="flex flex-col gap-6 lg:gap-8"
+          class="flex flex-col second-space"
         >
           <span
             class="font-mono text-xs uppercase tracking-[0.15em] text-primary"
@@ -85,14 +85,14 @@ const nextProject = computed(() => {
           <div
             class="grid gap-6 lg:grid-cols-2 border-b border-border/40 pb-4"
           >
-            <motion.div class="flex flex-col items-start gap-5">
+            <motion.div class="flex flex-col items-start third-space">
               <h1>
                 {{ project.title }}
               </h1>
             </motion.div>
             <motion.div
               :variants="fadeUp"
-              class="flex flex-wrap items-center gap-6 lg:justify-self-end"
+              class="flex flex-wrap items-center third-space lg:justify-self-end"
             >
               <a
                 v-if="caseStudy?.website?.liveUrl"
@@ -126,7 +126,6 @@ const nextProject = computed(() => {
             </motion.div>
           </div>
         </motion.div>
-        <!-- Breadcrumbs -->
       </motion.div>
 
       <motion.div
@@ -173,7 +172,7 @@ const nextProject = computed(() => {
         initial="hidden"
         while-in-view="visible"
         :in-view-options="viewport"
-        class="grid grid-cols-1 gap-10 lg:grid-cols-[0.5fr_1fr] border-b border-border/40 pb-8"
+        class="grid grid-cols-1 second-space lg:grid-cols-[0.5fr_1fr] border-b border-border/40 pb-8"
       >
         <div v-if="caseStudy" class="flex flex-col">
           <div
@@ -214,13 +213,13 @@ const nextProject = computed(() => {
         <div
           v-if="caseStudy"
           aria-labelledby="about-project-heading"
-          class="flex flex-col gap-8 justify-self-end"
+          class="flex flex-col second-space justify-self-end"
         >
           <h2 id="about-project-heading">
             О проекте<span class="text-primary">.</span>
           </h2>
 
-          <div class="flex max-w-4xl flex-col gap-5">
+          <div class="flex max-w-4xl flex-col third-space">
             <p
               v-for="(paragraph, index) in caseStudy.about"
               :key="index"
@@ -239,13 +238,13 @@ const nextProject = computed(() => {
         :in-view-options="viewport"
         v-if="caseStudy?.features.length"
         aria-labelledby="features-heading"
-        class="flex flex-col gap-8"
+        class="flex flex-col second-space"
       >
         <h2 id="features-heading">
           Что есть на сайте<span class="text-primary">.</span>
         </h2>
 
-        <ul class="grid gap-x-12 gap-y-5 md:grid-cols-2">
+        <ul class="grid third-space md:grid-cols-2">
           <li
             v-for="feature in caseStudy.features"
             :key="feature"
@@ -277,7 +276,7 @@ const nextProject = computed(() => {
         <!-- Previous Project -->
         <RouterLink
           :to="`/projects/${previousProject.slug}`"
-          class="group flex flex-col items-start gap-5 border-b border-border/40 py-8 transition-colors sm:border-r sm:border-b-0 sm:pr-10"
+          class="group flex flex-col items-start third-space border-b border-border/40 py-8 transition-colors sm:border-r sm:border-b-0 sm:pr-10"
         >
           <span
             class="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.15em] text-fg-dim"
@@ -303,7 +302,7 @@ const nextProject = computed(() => {
         <!-- Next Project -->
         <RouterLink
           :to="`/projects/${nextProject.slug}`"
-          class="group flex flex-col items-start gap-5 py-8 transition-colors sm:items-end sm:pl-10 sm:text-right"
+          class="group flex flex-col items-start third-space py-8 transition-colors sm:items-end sm:pl-10 sm:text-right"
         >
           <span
             class="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.15em] text-fg-dim"
@@ -330,7 +329,7 @@ const nextProject = computed(() => {
   </div>
 
   <!-- Not Found -->
-  <section v-else class="flex min-h-[60vh] flex-col justify-center gap-8 pt-32">
+  <section v-else class="flex min-h-[60vh] flex-col justify-center second-space pt-32">
     <h1>Проект не найден.</h1>
 
     <RouterLink to="/projects" class="btn btn-outline w-fit">

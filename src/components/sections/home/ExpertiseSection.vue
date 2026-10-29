@@ -4,63 +4,28 @@ import { Icon } from "@iconify/vue";
 import { RouterLink } from "vue-router";
 import { fadeUp, delayChildren, viewport } from "@/components/utils/motion";
 import Badge from "@/components/ui/badge.vue";
-import { fade } from "@vueuse/motion";
-
-const expertise = [
-  {
-    number: "01",
-    icon: "tabler:layout",
-    title: "Интерфейсы",
-    description:
-      "Создаю адаптивные и интуитивно понятные интерфейсы, уделяя внимание типографике, композиции и деталям.",
-    tags: ["Responsive", "UI", "Accessibility"],
-  },
-  {
-    number: "02",
-    icon: "tabler:code",
-    title: "Разработка",
-    description:
-      "Разрабатываю веб-приложения с компонентной архитектурой, типизацией и переиспользуемыми решениями.",
-    tags: ["Vue", "Nuxt", "TypeScript"],
-  },
-  {
-    number: "03",
-    icon: "tabler:bolt",
-    title: "Оптимизация",
-    description:
-      "Работаю над производительностью, скоростью загрузки и техническим качеством веб-продуктов.",
-    tags: ["Performance", "SEO", "Core Web Vitals"],
-  },
-  {
-    number: "04",
-    icon: "tabler:activity",
-    title: "Интерактивность",
-    description:
-      "Добавляю осмысленные анимации и микровзаимодействия, которые делают интерфейс живым и удобным.",
-    tags: ["Motion", "Animation", "UX"],
-  },
-];
+import { expertiseCapabilities } from "@/data/expertise";
 </script>
 
 <template>
   <section id="expertise" aria-labelledby="expertise-heading">
-    <div class="flex flex-col gap-10">
+    <div class="flex flex-col first-space">
+      <motion.div
+        :variants="fadeUp"
+        initial="hidden"
+        while-in-view="visible"
+        :in-view-options="viewport"
+      >
+        <Badge number="02" , text="Expertise" />
+      </motion.div>
       <!-- Heading -->
       <motion.div
         :variants="delayChildren"
         initial="hidden"
         while-in-view="visible"
         :in-view-options="viewport"
-        class="grid gap-8 lg:grid-cols-2 lg:items-end"
+        class="grid second-space lg:grid-cols-2 lg:items-end"
       >
-        <motion.div
-          class="lg:col-span-2"
-          :variants="fadeUp"
-          :in-view-options="viewport"
-        >
-          <Badge number="02" , text="Expertise" />
-        </motion.div>
-
         <motion.h2
           :variants="fadeUp"
           :in-view-options="viewport"
@@ -85,11 +50,11 @@ const expertise = [
         class="grid md:grid-cols-2"
       >
         <motion.article
-          v-for="item in expertise"
+          v-for="item in expertiseCapabilities"
           :key="item.number"
           :variants="fadeUp"
           :in-view-options="viewport"
-          class="group relative flex flex-col gap-8 border-t border-border/40 transition-colors duration-300 hover:bg-primary/2 md:even:border-l p-6 lg:p-10"
+          class="group relative flex flex-col third-space border-t border-border/40 transition-colors duration-300 hover:bg-primary/2 md:even:border-l p-6 lg:p-10"
         >
           <!-- Top -->
           <div class="flex items-center justify-between">
@@ -107,7 +72,7 @@ const expertise = [
           </div>
 
           <!-- Content -->
-          <div class="flex flex-col gap-4">
+          <div class="flex flex-col third-space">
             <h4>
               {{ item.title }}
             </h4>

@@ -35,14 +35,14 @@ const projectLabel = computed(() => {
     animate="visible"
     aria-labelledby="projects-heading"
     id="projects"
-    class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44"
+    class="flex flex-col first-space pt-32 sm:pt-40 lg:pt-44"
   >
     <motion.div :variants="fadeUp">
       <Badge number="01" text="Selected Works" />
     </motion.div>
 
     <!-- Heading -->
-    <div class="flex flex-col gap-8">
+    <div class="grid items-end grid-cols-1 lg:grid-cols-[1fr_0.5fr] second-space">
       <motion.h1 id="projects-heading" :variants="fadeUp" class="max-w-5xl">
         Работы, которые
         <span class="text-primary"> говорят за меня. </span>
@@ -70,7 +70,7 @@ const projectLabel = computed(() => {
   </motion.section>
 
   <!-- Projects Grid -->
-  <section class="flex flex-col gap-8">
+  <section class="flex flex-col second-space">
     <motion.div
       :variants="delayChildren"
       initial="hidden"
@@ -95,7 +95,7 @@ const projectLabel = computed(() => {
       initial="hidden"
       while-in-view="visible"
       :in-view-options="viewport"
-      class="grid grid-cols-1 gap-x-6 gap-y-14 md:grid-cols-2 lg:gap-x-8 lg:gap-y-20"
+      class="grid grid-cols-1 second-space md:grid-cols-2"
     >
       <ProjectCard
         v-for="(project, index) in projects"

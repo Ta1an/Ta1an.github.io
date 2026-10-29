@@ -23,14 +23,19 @@ const router = createRouter({
       props: true,
     },
     {
-      path: "/process",
-      name: "process",
-      component: () => import("@/pages/ProcessPage.vue"),
+      path: "/expertise",
+      name: "expertise",
+      component: () => import("@/pages/ExpertisePage.vue"),
     },
     {
       path: "/about",
       name: "about",
       component: () => import("@/pages/AboutPage.vue"),
+    },
+    {
+      path: "/services",
+      name: "services",
+      component: () => import("@/pages/ServicesPage.vue"),
     },
     {
       path: "/contact",

@@ -91,7 +91,7 @@ const principles = [
       :variants="delayChildren"
       initial="hidden"
       animate="visible"
-      class="grid items-center gap-10 lg:grid-cols-5 lg:gap-12"
+      class="grid items-center first-space lg:grid-cols-5"
     >
       <!-- Left / Content -->
       <div class="flex flex-col gap-8 lg:col-span-3">
@@ -115,7 +115,7 @@ const principles = [
         </motion.h2>
 
         <!-- Description -->
-        <motion.div :variants="fadeUp" class="flex max-w-xl flex-col gap-5">
+        <motion.div :variants="fadeUp" class="flex max-w-xl flex-col second-space">
           <p class="text-fg">
             Я frontend-разработчик, которому нравится превращать идеи в
             продуманные и выразительные веб-интерфейсы.
@@ -234,7 +234,7 @@ const principles = [
          02 / MY JOURNEY
     ====================== -->
   <section
-    class="grid gap-10 grid-cols-1 lg:grid-cols-[auto_1fr] lg:gap-12"
+    class="grid first-space grid-cols-1 lg:grid-cols-[auto_1fr] lg:gap-12"
     aria-labelledby="journey-heading"
   >
     <!-- Sticky heading -->
@@ -276,7 +276,7 @@ const principles = [
         :in-view-options="viewport"
         v-for="item in journey"
         :key="item.number"
-        class="flex justify-evenly border-t border-border/40 py-8 sm:gap-8 sm:py-10"
+        class="flex justify-evenly border-t border-border/40 py-8 third-space sm:py-10"
       >
         <div class="flex flex-col gap-3">
           <span class="font-mono text-base tracking-wider text-primary">
@@ -291,7 +291,7 @@ const principles = [
         </div>
 
         <!-- Content -->
-        <div class="flex flex-col gap-5">
+        <div class="flex flex-col third-space">
           <span
             class="font-mono text-xs uppercase tracking-[0.15em] text-fg-dim"
           >
@@ -341,7 +341,7 @@ const principles = [
       initial="hidden"
       whileInView="visible"
       :inViewOptions="viewport"
-      class="mb-12 flex flex-col gap-6 lg:mb-16"
+      class="mb-12 flex flex-col second-space lg:mb-16"
     >
       <motion.div :variants="fadeUp" :in-view-options="viewport">
         <Badge number="03" text="Education & Resume" />
@@ -429,7 +429,7 @@ const principles = [
       initial="hidden"
       whileInView="visible"
       :inViewOptions="viewport"
-      class="mt-6 flex flex-col gap-6 border-t border-border/40 pt-8 sm:flex-row sm:items-center sm:justify-between"
+      class="mt-6 flex flex-col second-apce border-t border-border/40 pt-8 sm:flex-row sm:items-center sm:justify-between"
     >
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-3">
@@ -491,7 +491,7 @@ const principles = [
       initial="hidden"
       whileInView="visible"
       :inViewOptions="viewport"
-      class="mb-10 flex flex-col gap-6 lg:mb-12"
+      class="mb-10 flex flex-col first-space lg:mb-12"
     >
       <motion.div :variants="fadeUp" :in-view-options="viewport">
         <Badge number="03" text="Principles" />
@@ -516,7 +516,7 @@ const principles = [
         :key="item.number"
         :variants="fadeUp"
         :inViewOptions="viewport"
-        class="group flex flex-col gap-10 border-t border-border/40 py-9 transition-colors duration-300 hover:bg-primary/5 lg:px-8 lg:py-10 lg:first:pl-0 lg:last:pr-0 lg:not-first:border-l"
+        class="group flex flex-col second-space border-t border-border/40 py-9 transition-colors duration-300 hover:bg-primary/5 lg:px-8 lg:py-10 lg:first:pl-0 lg:last:pr-0 lg:not-first:border-l"
       >
         <div class="flex items-center justify-between">
           <span class="font-mono text-xs text-fg-dim group-hover:text-primary">
@@ -560,7 +560,7 @@ const principles = [
     ====================== -->
   <section
     aria-labelledby="beyond-heading"
-    class="grid gap-12 lg:grid-cols-12 lg:gap-20"
+    class="grid first-space lg:grid-cols-12"
   >
     <motion.div
       :variants="delayChildren"
@@ -584,7 +584,7 @@ const principles = [
       initial="hidden"
       whileInView="visible"
       :inViewOptions="viewport"
-      class="flex flex-col gap-8 lg:col-span-7"
+      class="flex flex-col second-space lg:col-span-7"
     >
       <motion.p
         :variants="fadeUp"
@@ -631,4 +631,5 @@ const principles = [
   <!-- =====================
          05 / CTA
     ====================== -->
+    
 </template>

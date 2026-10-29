@@ -40,7 +40,7 @@ const services = [
     :in-view-options="viewport"
     id="services"
     aria-labelledby="services-title"
-    class="relative overflow-hidden flex flex-col gap-10"
+    class="relative overflow-hidden flex flex-col first-space"
   >
     <motion.div :variants="fadeUp">
       <Badge number="03" text="What I do" />
@@ -48,7 +48,7 @@ const services = [
     <!-- Heading -->
     <motion.div
       :variants="fadeUp"
-      class="grid gap-6 lg:grid-cols-[1.4fr_0.6fr] lg:items-end"
+      class="grid second-space lg:grid-cols-[1.4fr_0.6fr] lg:items-end"
     >
       <h2>
         Что я могу
