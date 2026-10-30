@@ -56,7 +56,7 @@ const submitForm = () => {
     initial="hidden"
     animate="visible"
     aria-labelledby="contact-heading"
-    class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44"
+    class="flex flex-col first-space pt-32 sm:pt-40 lg:pt-44"
   >
     <!-- Eyebrow -->
     <motion.div :variants="fadeUp">
@@ -64,16 +64,13 @@ const submitForm = () => {
     </motion.div>
 
     <!-- Heading -->
-    <div class="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <motion.h1 id="contact-heading" :variants="fadeUp" class="lg:col-span-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_0.5fr] second-space">
+      <motion.h1 id="contact-heading" :variants="fadeUp">
         Есть идея?
         <span class="block text-primary"> Давайте обсудим. </span>
       </motion.h1>
 
-      <motion.div
-        :variants="fadeUp"
-        class="flex flex-col justify-end gap-5 lg:col-span-4"
-      >
+      <motion.div  :variants="fadeUp" class="flex flex-col justify-end third-space">
         <p class="max-w-md">
           Открыт к интересным проектам, предложениям о работе и новым
           возможностям сотрудничества.
@@ -109,7 +106,7 @@ const submitForm = () => {
   ====================== -->
   <section
     aria-labelledby="contact-options-heading"
-    class="grid gap-14 lg:grid-cols-12 lg:gap-16"
+    class="grid grid-cols-1 first-space lg:grid-cols-2"
   >
     <!-- LEFT / DIRECT CONTACTS -->
     <motion.div
@@ -117,7 +114,7 @@ const submitForm = () => {
       initial="hidden"
       while-in-view="visible"
       :in-view-options="viewport"
-      class="flex min-w-0 flex-col gap-10 lg:col-span-5"
+      class="flex min-w-0 flex-col"
     >
       <!-- Heading -->
       <div class="flex flex-col gap-6">
@@ -197,7 +194,6 @@ const submitForm = () => {
       initial="hidden"
       while-in-view="visible"
       :in-view-options="viewport"
-      class="min-w-0 lg:col-span-7"
     >
       <div class="flex flex-col gap-10 border-t border-border/50 pt-8 lg:pt-10">
         <!-- Heading -->
@@ -271,12 +267,13 @@ const submitForm = () => {
                 id="contact-type"
                 v-model="form.type"
                 name="type"
-                class="w-full cursor-pointer appearance-none border-b border-border/70 bg-bg-dark py-4 pr-10 text-sm text-fg outline-none transition-colors focus:border-primary"
+                class="w-full cursor-pointer appearance-none border-b border-border/70 bg-transparent py-4 pr-10 text-sm text-fg outline-none transition-colors duration-300 focus:border-primary"
               >
                 <option
                   v-for="(label, value) in inquiryTypes"
                   :key="value"
                   :value="value"
+                  class="bg-bg-dark text-fg"
                 >
                   {{ label }}
                 </option>

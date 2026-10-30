@@ -28,17 +28,17 @@ const featuredProject = computed(() =>
     aria-labelledby="expertise-heading"
     class="flex flex-col gap-10 pt-32 sm:pt-40 lg:pt-44"
   >
-    <motion.div :variants="fadeUp">
-      <Badge number="01" text="Expertise" />
-    </motion.div>
-
-    <div class="grid items-end grid-cols-1 lg:grid-cols-[1fr_0.6fr] gap-8">
-      <motion.h1 id="expertise-heading" :variants="fadeUp">
+    <motion.div
+      :variants="fadeUp"
+      class="grid items-end grid-cols-1 lg:grid-cols-[1fr_0.6fr] second-space"
+    >
+      <Badge number="01" text="Expertise" class="lg:col-span-2" />
+      <h1 id="expertise-heading" :variants="fadeUp">
         Технологии.
         <span class="block text-primary"> Подход. Результат. </span>
-      </motion.h1>
+      </h1>
 
-      <motion.div :variants="fadeUp" class="flex flex-col justify-end gap-5">
+      <div :variants="fadeUp" class="flex flex-col justify-end gap-5">
         <p class="max-w-md">
           Мой технический стек, навыки и принципы, которыми я руководствуюсь при
           создании современных веб-продуктов.
@@ -47,8 +47,8 @@ const featuredProject = computed(() =>
         <span class="font-mono uppercase tracking-[0.15em]">
           Frontend / Development / Experience
         </span>
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
 
     <motion.div
       :variants="fadeUp"
@@ -180,7 +180,9 @@ const featuredProject = computed(() =>
         </div>
 
         <!-- Technologies -->
-        <div class="grid grid-cols-2 auto-rows-fr gap-3 sm:grid-cols-3 lg:col-span-8">
+        <div
+          class="grid grid-cols-2 auto-rows-fr gap-3 sm:grid-cols-3 lg:col-span-8"
+        >
           <div
             v-for="skill in group.skills"
             :key="skill.name"

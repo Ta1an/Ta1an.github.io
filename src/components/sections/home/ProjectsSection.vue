@@ -53,13 +53,11 @@ const infoVariants = {
     id="#projects"
     class="flex flex-col first-space"
   >
-    <motion.div :variants="fadeUp" :in-view-options="viewport">
-      <Badge number="01" , text="Selected Works" />
-    </motion.div>
     <motion.div
       :variants="fadeUp"
       class="grid lg:grid-cols-2 second-space items-center border-b border-border pb-6"
     >
+      <Badge number="01" class="lg:col-span-2" text="Selected Works" />
       <h2>
         Избранные
         <span class="text-primary">работы.</span>
@@ -74,7 +72,6 @@ const infoVariants = {
     <!-- Main featured project -->
     <motion.div
       :variants="fadeUp"
-      :in-view-options="viewport"
       class="grid grid-cols-1 items-center second-space lg:grid-cols-2 lg:gap-14"
     >
       <!-- Preview -->
@@ -132,7 +129,7 @@ const infoVariants = {
               initial="hidden"
               animate="visible"
               exit="hidden"
-              class="flex flex-col items-start gap-5"
+              class="flex flex-col items-start third-space"
             >
               <span
                 class="font-mono text-xs tracking-[0.15em] text-primary uppercase"

@@ -33,18 +33,17 @@ const bottomVariants = {
     id="home"
     class="flex flex-col items-center first-space pt-32 sm:pt-40 lg:pt-44"
   >
-    <motion.div :variants="fadeUp" class="flex items-center gap-3">
-      <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
-
-      <span
-        class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
-      >
-        FRONTEND DEVELOPER / АЛМАТЫ, КАЗАХСТАН
-      </span>
-    </motion.div>
-
     <!-- Heading -->
     <div class="flex flex-col second-space text-center items-center">
+      <motion.div :variants="fadeUp" class="flex items-center gap-3">
+        <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
+
+        <span
+          class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
+        >
+          FRONTEND DEVELOPER / АЛМАТЫ, КАЗАХСТАН
+        </span>
+      </motion.div>
       <motion.h1 :variants="fadeUp">
         От идеи — до
         <span class="block text-primary"> цифрового продукта. </span>

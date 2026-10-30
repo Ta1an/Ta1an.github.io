@@ -42,14 +42,12 @@ const services = [
     aria-labelledby="services-title"
     class="relative overflow-hidden flex flex-col first-space"
   >
-    <motion.div :variants="fadeUp">
-      <Badge number="03" text="What I do" />
-    </motion.div>
     <!-- Heading -->
     <motion.div
       :variants="fadeUp"
       class="grid second-space lg:grid-cols-[1.4fr_0.6fr] lg:items-end"
     >
+      <Badge number="03" class="lg:col-span-2" text="What I do" />
       <h2>
         Что я могу
         <span class="text-primary"> создать для вас. </span>
@@ -62,18 +60,11 @@ const services = [
     </motion.div>
 
     <!-- Services -->
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      while-in-view="visible"
-      :in-view-options="viewport"
-      class="border-t border-border"
-    >
+    <div class="border-t border-border">
       <motion.article
         v-for="service in services"
         :key="service.number"
         :variants="fadeUp"
-        :in-view-options="viewport"
         class="group relative border-b border-border"
       >
         <div
@@ -90,7 +81,7 @@ const services = [
 
           <!-- Title -->
           <div
-            class="flex min-w-0 items-center gap-4 transition-transform duration-500 ease-out group-hover:translate-x-3"
+            class="flex items-center gap-4 transition-transform duration-500 ease-out group-hover:translate-x-3"
           >
             <h3>
               {{ service.title }}
@@ -122,6 +113,6 @@ const services = [
           />
         </div>
       </motion.article>
-    </motion.div>
+    </div>
   </motion.section>
 </template>

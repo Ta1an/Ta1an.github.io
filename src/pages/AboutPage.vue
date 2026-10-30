@@ -86,134 +86,136 @@ const principles = [
   <!-- =====================
      01 / INTRODUCTION
 ====================== -->
-  <section aria-labelledby="about-heading">
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      animate="visible"
-      class="grid items-center first-space lg:grid-cols-5"
-    >
-      <!-- Left / Content -->
-      <div class="flex flex-col gap-8 lg:col-span-3">
-        <!-- Eyebrow -->
-        <motion.div :variants="fadeUp" class="flex items-center gap-3">
-          <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    animate="visible"
+    class="grid items-center first-space lg:grid-cols-[1fr_0.5fr] pt-32 sm:pt-40 lg:pt-44"
+    aria-labelledby="about-heading"
+  >
+    <!-- Left / Content -->
+    <div class="flex flex-col second-space">
+      <!-- Eyebrow -->
+      <motion.div :variants="fadeUp" class="flex items-center gap-3">
+        <span class="size-2 rounded-full bg-primary shadow-glow-sm" />
 
-          <span
-            class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
-          >
-            01 / About me
-          </span>
-        </motion.div>
+        <span
+          class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase sm:text-xs"
+        >
+          01 / About me
+        </span>
+      </motion.div>
 
-        <!-- Heading -->
-        <motion.h2 id="about-heading" :variants="fadeUp">
-          Привет,
-          <span class="text-primary">я Алан.</span>
+      <!-- Heading -->
+      <motion.h2 id="about-heading" :variants="fadeUp">
+        Привет,
+        <span class="text-primary">я Алан.</span>
 
-          <span class="block"> Создаю цифровые продукты. </span>
-        </motion.h2>
+        <span class="block"> Создаю цифровые продукты. </span>
+      </motion.h2>
 
-        <!-- Description -->
-        <motion.div :variants="fadeUp" class="flex max-w-xl flex-col second-space">
-          <p class="text-fg">
-            Я frontend-разработчик, которому нравится превращать идеи в
-            продуманные и выразительные веб-интерфейсы.
-          </p>
+      <!-- Description -->
+      <motion.div
+        :variants="fadeUp"
+        class="flex max-w-xl flex-col second-space"
+      >
+        <p class="text-fg">
+          Я frontend-разработчик, которому нравится превращать идеи в
+          продуманные и выразительные веб-интерфейсы.
+        </p>
 
-          <p>
-            Мне интересно работать на пересечении технологий, дизайна и
-            пользовательского опыта. Я уделяю внимание не только внешнему виду,
-            но и тому, как устроен продукт изнутри.
-          </p>
-        </motion.div>
+        <p>
+          Мне интересно работать на пересечении технологий, дизайна и
+          пользовательского опыта. Я уделяю внимание не только внешнему виду, но
+          и тому, как устроен продукт изнутри.
+        </p>
+      </motion.div>
 
-        <!-- Link -->
-        <motion.div :variants="fadeUp">
-          <RouterLink
-            to="/projects"
-            class="group inline-flex items-center gap-3 text-sm font-medium transition-colors hover:text-primary"
-          >
-            Посмотреть мои проекты
+      <!-- Link -->
+      <motion.div :variants="fadeUp">
+        <RouterLink
+          to="/projects"
+          class="group inline-flex items-center gap-3 text-sm font-medium transition-colors hover:text-primary"
+        >
+          Посмотреть мои проекты
 
-            <Icon
-              icon="tabler:arrow-up-right"
-              class="size-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-              aria-hidden="true"
-            />
-          </RouterLink>
-        </motion.div>
+          <Icon
+            icon="tabler:arrow-up-right"
+            class="size-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </RouterLink>
+      </motion.div>
+    </div>
+
+    <!-- Right / Portrait -->
+    <motion.div :variants="fadeUp" class="relative">
+      <!-- Decorative top label -->
+      <div
+        class="mb-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.15em] text-fg-dim"
+      >
+        <span>Portrait / 01</span>
+        <span>Almaty, KZ</span>
       </div>
 
-      <!-- Right / Portrait -->
-      <motion.div :variants="fadeUp" class="relative lg:col-span-2">
-        <!-- Decorative top label -->
+      <!-- Image container -->
+      <div
+        class="group relative aspect-4/5 overflow-hidden border border-border/50 bg-bg-dark"
+      >
+        <!-- Actual image -->
+        <img
+          v-if="portraitSrc"
+          :src="portraitSrc"
+          alt="Портрет Алана, frontend-разработчика"
+          width="800"
+          height="1000"
+          fetchpriority="high"
+          class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        />
+
+        <!-- Placeholder -->
         <div
-          class="mb-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.15em] text-fg-dim"
+          v-else
+          class="flex size-full flex-col items-center justify-center gap-5 bg-primary/2.5"
         >
-          <span>Portrait / 01</span>
-          <span>Almaty, KZ</span>
-        </div>
-
-        <!-- Image container -->
-        <div
-          class="group relative aspect-4/5 overflow-hidden border border-border/50 bg-bg-dark"
-        >
-          <!-- Actual image -->
-          <img
-            v-if="portraitSrc"
-            :src="portraitSrc"
-            alt="Портрет Алана, frontend-разработчика"
-            width="800"
-            height="1000"
-            fetchpriority="high"
-            class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          />
-
-          <!-- Placeholder -->
-          <div
-            v-else
-            class="flex size-full flex-col items-center justify-center gap-5 bg-primary/2.5"
-          >
-            <Icon
-              icon="tabler:user"
-              class="size-14 text-primary/30"
-              aria-hidden="true"
-            />
-
-            <span
-              class="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-dim"
-            >
-              Your portrait here
-            </span>
-          </div>
-
-          <!-- Subtle inner border -->
-          <div
-            class="pointer-events-none absolute inset-4 border border-white/10"
+          <Icon
+            icon="tabler:user"
+            class="size-14 text-primary/30"
             aria-hidden="true"
           />
 
-          <!-- Corner accent -->
-          <div
-            class="pointer-events-none absolute top-0 left-0 h-14 w-14 border-t-2 border-l-2 border-primary/60"
-            aria-hidden="true"
-          />
-        </div>
-
-        <!-- Image caption -->
-        <div class="mt-4 flex items-center justify-between gap-4">
           <span
-            class="font-mono text-[10px] uppercase tracking-widest text-fg-dim"
+            class="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-dim"
           >
-            Frontend Developer
-          </span>
-
-          <span class="font-mono text-[10px] text-primary">
-            43°14'N / 76°57'E
+            Your portrait here
           </span>
         </div>
-      </motion.div>
+
+        <!-- Subtle inner border -->
+        <div
+          class="pointer-events-none absolute inset-4 border border-white/10"
+          aria-hidden="true"
+        />
+
+        <!-- Corner accent -->
+        <div
+          class="pointer-events-none absolute top-0 left-0 h-14 w-14 border-t-2 border-l-2 border-primary/60"
+          aria-hidden="true"
+        />
+      </div>
+
+      <!-- Image caption -->
+      <div class="mt-4 flex items-center justify-between gap-4">
+        <span
+          class="font-mono text-[10px] uppercase tracking-widest text-fg-dim"
+        >
+          Frontend Developer
+        </span>
+
+        <span class="font-mono text-[10px] text-primary">
+          43°14'N / 76°57'E
+        </span>
+      </div>
     </motion.div>
 
     <!-- Bottom separator -->
@@ -225,55 +227,44 @@ const principles = [
         delay: 0.7,
         ease: 'easeOut',
       }"
-      class="mt-20 h-px origin-left bg-border/40"
+      class="mt-20 h-px origin-left bg-border/40 lg:col-span-2"
       aria-hidden="true"
     />
-  </section>
+  </motion.section>
 
   <!-- =====================
          02 / MY JOURNEY
     ====================== -->
-  <section
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    while-in-view="visible"
+    :in-view-options="viewport"
     class="grid first-space grid-cols-1 lg:grid-cols-[auto_1fr] lg:gap-12"
     aria-labelledby="journey-heading"
   >
     <!-- Sticky heading -->
     <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      while-in-view="visible"
-      :in-view-options="viewport"
-      class="self-start lg:sticky lg:top-32 lg:pb-32"
+      :variants="fadeUp"
+      class="self-start flex flex-col second-space lg:sticky lg:top-32 lg:pb-32"
     >
-      <motion.div :variants="fadeUp" :in-view-options="viewport">
-        <Badge number="02" text="My Journey" />
-      </motion.div>
+      <Badge number="02" text="My Journey" />
 
-      <motion.h2 class="mt-6" :variants="fadeUp" :in-view-options="viewport">
+      <h2>
         Мой путь
         <span class="block text-primary"> в разработке. </span>
-      </motion.h2>
+      </h2>
 
-      <motion.p
-        :variants="fadeUp"
-        :in-view-options="viewport"
-        class="mt-6 max-w-xl"
-      >
+      <p class="max-w-xl">
         Веб-разработка для меня — это постоянный процесс обучения, экспериментов
         и практики.
-      </motion.p>
+      </p>
     </motion.div>
 
     <!-- Journey items -->
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      while-in-view="visible"
-      :in-view-options="viewport"
-    >
+    <div>
       <motion.article
         :variants="fadeUp"
-        :in-view-options="viewport"
         v-for="item in journey"
         :key="item.number"
         class="flex justify-evenly border-t border-border/40 py-8 third-space sm:py-10"
@@ -319,7 +310,7 @@ const principles = [
           </p>
         </div>
       </motion.article>
-    </motion.div>
+    </div>
 
     <motion.div
       :initial="{ opacity: 0, scaleX: 0 }"
@@ -332,43 +323,35 @@ const principles = [
       class="mt-20 h-px origin-left bg-border/40 lg:col-span-2"
       aria-hidden="true"
     />
-  </section>
+  </motion.section>
 
-  <section id="education" aria-labelledby="education-heading">
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    whileInView="visible"
+    :inViewOptions="viewport"
+    id="education"
+    aria-labelledby="education-heading"
+  >
     <!-- Heading -->
     <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      whileInView="visible"
-      :inViewOptions="viewport"
+      :variants="fadeUp"
       class="mb-12 flex flex-col second-space lg:mb-16"
     >
-      <motion.div :variants="fadeUp" :in-view-options="viewport">
-        <Badge number="03" text="Education & Resume" />
-      </motion.div>
+      <Badge number="03" text="Education & Resume" />
 
-      <motion.h2
-        :variants="fadeUp"
-        :in-view-options="viewport"
-        id="education-heading"
-      >
+      <h2 id="education-heading">
         Образование<span class="text-primary">.</span>
-      </motion.h2>
+      </h2>
 
-      <motion.p :variants="fadeUp" :in-view-options="viewport" class="max-w-xl">
+      <p class="max-w-xl">
         Академическая база, которая помогает мне развиваться в сфере
         информационных технологий и веб-разработки.
-      </motion.p>
+      </p>
     </motion.div>
 
     <!-- Education Grid -->
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      whileInView="visible"
-      :inViewOptions="viewport"
-      class="grid md:grid-cols-2"
-    >
+    <div class="grid md:grid-cols-2">
       <motion.article
         v-for="(item, index) in education"
         :key="item.university"
@@ -414,14 +397,12 @@ const principles = [
         <div class="mt-auto flex items-center gap-2">
           <span class="size-1.5 rounded-full bg-primary" />
 
-          <span
-            class="font-mono text-xs uppercase tracking-wider text-fg-dim"
-          >
+          <span class="font-mono text-xs uppercase tracking-wider text-fg-dim">
             {{ item.status }}
           </span>
         </div>
       </motion.article>
-    </motion.div>
+    </div>
 
     <!-- Resume -->
     <motion.div
@@ -479,43 +460,37 @@ const principles = [
       class="mt-20 h-px origin-left bg-border/40 lg:col-span-2"
       aria-hidden="true"
     />
-  </section>
+  </motion.section>
 
   <!-- =====================
          03 / PRINCIPLES
     ====================== -->
-  <section aria-labelledby="principles-heading">
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    whileInView="visible"
+    :inViewOptions="viewport"
+    aria-labelledby="principles-heading"
+  >
     <!-- Heading -->
     <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      whileInView="visible"
-      :inViewOptions="viewport"
+      :variants="fadeUp"
       class="mb-10 flex flex-col first-space lg:mb-12"
     >
-      <motion.div :variants="fadeUp" :in-view-options="viewport">
-        <Badge number="03" text="Principles" />
-      </motion.div>
+      <Badge number="03" text="Principles" class="lg:col-span-2" />
 
-      <motion.h2 :variants="fadeUp" :in-view-options="viewport">
+      <h2>
         То, что для меня
         <span class="block text-primary"> действительно важно. </span>
-      </motion.h2>
+      </h2>
     </motion.div>
 
     <!-- Principles -->
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      whileInView="visible"
-      :inViewOptions="viewport"
-      class="grid lg:grid-cols-3"
-    >
+    <div class="grid lg:grid-cols-3">
       <motion.article
         v-for="item in principles"
         :key="item.number"
         :variants="fadeUp"
-        :inViewOptions="viewport"
         class="group flex flex-col second-space border-t border-border/40 py-9 transition-colors duration-300 hover:bg-primary/5 lg:px-8 lg:py-10 lg:first:pl-0 lg:last:pr-0 lg:not-first:border-l"
       >
         <div class="flex items-center justify-between">
@@ -540,7 +515,7 @@ const principles = [
           </p>
         </div>
       </motion.article>
-    </motion.div>
+    </div>
 
     <motion.div
       :initial="{ opacity: 0, scaleX: 0 }"
@@ -553,52 +528,38 @@ const principles = [
       class="mt-20 h-px origin-left bg-border/40 lg:col-span-2"
       aria-hidden="true"
     />
-  </section>
+  </motion.section>
 
   <!-- =====================
          04 / BEYOND THE CODE
     ====================== -->
-  <section
+  <motion.section
+    :variants="delayChildren"
+    initial="hidden"
+    whileInView="visible"
+    :inViewOptions="viewport"
     aria-labelledby="beyond-heading"
-    class="grid first-space lg:grid-cols-12"
+    class="flex justify-between first-space"
   >
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      whileInView="visible"
-      :inViewOptions="viewport"
-      class="lg:col-span-5"
-    >
-      <motion.div :variants="fadeUp" :in-view-options="viewport">
-        <Badge number="04" text="Beyond the code" />
-      </motion.div>
+    <motion.div :variants="fadeUp" class="flex flex-col second-space">
+      <Badge number="04" text="Beyond the code" />
 
-      <motion.h2 :variants="fadeUp" :in-view-options="viewport" class="mt-6">
+      <h2>
         Не только
         <span class="block text-primary"> разработка. </span>
-      </motion.h2>
+      </h2>
     </motion.div>
 
-    <motion.div
-      :variants="delayChildren"
-      initial="hidden"
-      whileInView="visible"
-      :inViewOptions="viewport"
-      class="flex flex-col second-space lg:col-span-7"
-    >
-      <motion.p
-        :variants="fadeUp"
-        :in-view-options="viewport"
-        class="text-xl text-fg sm:text-2xl"
-      >
+    <motion.div :variants="fadeUp" class="flex flex-col second-space">
+      <p class="text-xl text-fg sm:text-2xl max-w-2xl">
         За пределами редактора кода я остаюсь человеком, которому нравится
         движение, новые идеи и постоянное развитие.
-      </motion.p>
+      </p>
 
-      <motion.p :variants="fadeUp" :in-view-options="viewport" class="max-w-xl">
+      <p class="max-w-2xl">
         В свободное время люблю играть в футбол. Мне нравится сочетание
         командной работы, концентрации и стремления становиться лучше.
-      </motion.p>
+      </p>
 
       <motion.div
         :variants="fadeUp"
@@ -626,10 +587,5 @@ const principles = [
       class="mt-20 h-px origin-left bg-border/40 lg:col-span-12"
       aria-hidden="true"
     />
-  </section>
-
-  <!-- =====================
-         05 / CTA
-    ====================== -->
-    
+  </motion.section>
 </template>
